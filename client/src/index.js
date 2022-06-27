@@ -7,14 +7,15 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Auth0Provider
-    domain='YOUR_DOMAIN'
-    clientId='YOUR_CLIENT_ID'
-    redirectUri={window.location.origin}
-  >
-    <App />
-  </Auth0Provider>,
-  document.getElementById("app")
+  <React.StrictMode>
+    <Auth0Provider
+      domain='raulthebarber.us.auth0.com'
+      clientId='FA0M1mNjjr5t0Ocfz0mVqJ6Fkxp96E5a'
+      redirectUri={window.location.origin}
+    >
+      <App />
+    </Auth0Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
