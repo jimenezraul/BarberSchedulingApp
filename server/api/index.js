@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-const prices = require("./prices");
+const setmore = require("./setmore");
 
-router.use("/api/prices", prices);
+router.use("/api", setmore);
 
 module.exports = router;

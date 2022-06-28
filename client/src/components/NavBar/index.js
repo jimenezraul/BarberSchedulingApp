@@ -116,7 +116,7 @@ export default function NavBar() {
                     <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg shadow-gray-800 py-1 border border-gray-600 bg-gray-700 focus:outline-none'>
                       {isAuthenticated ? (
                         <>
-                          <p className='text-center text-md font-medium text-gray-100 border-b border-gray-600 pb-2'>
+                          <p className='text-center text-sm font-medium text-gray-100 border-b border-gray-600 pb-2'>
                             {user?.name}
                           </p>
                           <Menu.Item>
