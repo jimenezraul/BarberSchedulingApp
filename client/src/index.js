@@ -12,6 +12,8 @@ root.render(
       domain='raulthebarber.us.auth0.com'
       clientId='FA0M1mNjjr5t0Ocfz0mVqJ6Fkxp96E5a'
       redirectUri={window.location.origin}
+      audience='https://raulthebarber.net/'
+      scope='openid profile email'
     >
       <App />
     </Auth0Provider>

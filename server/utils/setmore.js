@@ -88,6 +88,34 @@ class Setmore {
     }
     return await categories(access_token);
   }
+    
+    async get_customer(user) {
+        const access_token = await this.get_access_token();
+
+        async function customer(token) {
+            try {
+                const endpoint = `/api/v2/bookingapi/customer?firstname=${user.givenName}&email=${user.email}`;
+                const response = await axios.get(url + endpoint, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.data.response) {
+                    const newToken = await this.get_new_access_token();
+                    access_token = newToken;
+                    return await customer(newToken);
+                }
+
+                const data = response.data.data;
+                return data;
+            } catch (error) {
+                return error;
+            }
+        }
+        return await customer(access_token);
+    }
 }
 
 module.exports = Setmore;

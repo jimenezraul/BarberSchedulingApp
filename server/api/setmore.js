@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const axios = require("axios");
 const Setmore = require("../utils/setmore");
+const auth = require("../utils/auth");
 
 const setmore = new Setmore();
 
@@ -17,6 +18,16 @@ router.get("/categories", async (req, res) => {
   try {
     const categories = await setmore.get_categories();
     return res.send(categories);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+router.get("/customer", auth, async (req, res) => {
+  const user = req.user;
+  try {
+    const customer = await setmore.get_customer(user);
+    return res.send(customer);
   } catch (error) {
     return res.send(error);
   }

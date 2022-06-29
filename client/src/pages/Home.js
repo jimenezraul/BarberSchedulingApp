@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Home() {
   return (
     <>
@@ -12,12 +14,12 @@ function Home() {
                 <span className='text-red-600'>Raul</span>
                 TheBarber
               </h1>
-              <a
-                href='/appointments'
+              <Link
+                to='/appointments'
                 className='block text-center text-gray-200 hover:bg-gray-200 hover:text-gray-700 font-bold rounded-full border py-2 text-2xl my-font2 uppercase'
               >
                 Book Now
-              </a>
+              </Link>
               <div className='mt-6 w-full text-center'>
                 <div
                   className='fb-like'
@@ -30,12 +32,12 @@ function Home() {
                 ></div>
                 <div className='mt-5 pt-5 flex flex-wrap justify-center divide-y-2 border-t border-gray-500'>
                   <div className='w-full text-center flex justify-center items-center'>
-                    <a href='https://www.facebook.com/raulthebarber81'>
+                    <Link to='https://www.facebook.com/raulthebarber81'>
                       <i className='mr-3 text-3xl text-gray-100 bi bi-facebook'></i>
-                    </a>
-                    <a href='https://www.instagram.com/raul.thebarber/'>
+                    </Link>
+                    <Link to='https://www.instagram.com/raul.thebarber/'>
                       <i className='ml-3 text-3xl text-gray-100 bi bi-instagram'></i>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -46,13 +48,25 @@ function Home() {
       <div className='flex-1'>
         <div className='flex flex-wrap justify-center py-10'>
           <div className='w-10/12 md:w-3/12 p-1'>
-            <img className='mx-auto rounded-lg' src="/assets/img/IMG_3391.png" alt='' />
+            <img
+              className='mx-auto rounded-lg'
+              src='/assets/img/IMG_3391.png'
+              alt=''
+            />
           </div>
           <div className='w-5/12 md:w-3/12 p-1'>
-            <img className='mx-auto rounded-lg' src="/assets/img/IMG_3392.png" alt='' />
+            <img
+              className='mx-auto rounded-lg'
+              src='/assets/img/IMG_3392.png'
+              alt=''
+            />
           </div>
           <div className='w-5/12 md:w-3/12 p-1'>
-            <img className='mx-auto rounded-lg' src="/assets/img/IMG_3393.png" alt='' />
+            <img
+              className='mx-auto rounded-lg'
+              src='/assets/img/IMG_3393.png'
+              alt=''
+            />
           </div>
         </div>
       </div>

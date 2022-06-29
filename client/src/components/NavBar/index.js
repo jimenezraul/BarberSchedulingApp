@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const menu_navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "Book Now", href: "/booknow", current: false },
+  { name: "BookNow", href: "/booknow", current: false },
   { name: "Gallery", href: "/gallery", current: false },
   { name: "Prices", href: "/prices", current: false },
 ];
@@ -16,6 +16,7 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [navigation, setNavigation] = useState(menu_navigation);
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout, loginWithPopup, user } = useAuth0();
@@ -44,11 +45,19 @@ export default function NavBar() {
     );
   }, [currentpath]);
 
+  const profileHandleClick = () => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    } else {
+      loginWithPopup();
+    }
+  };
+
   return (
     <Disclosure as='nav' className='bg-gray-800'>
       {({ open }) => (
         <>
-          <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
+          <div className='max-w-7xl mx-auto px-2 lg:px-8'>
             <div className='relative flex items-center justify-between h-16'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}
@@ -66,13 +75,13 @@ export default function NavBar() {
               </div>
               <div className='flex-shrink-0 flex items-center'>
                 <img
-                  className='hidden lg:block h-12 w-auto bg-gray-50 rounded-full'
-                  src="/assets/img/Logo-face.svg"
+                  className='hidden md:block h-12 w-auto bg-gray-50 rounded-full'
+                  src='/assets/img/Logo-face.svg'
                   alt='Workflow'
                 />
               </div>
-              <div className='hidden sm:block sm:ml-6'>
-                <div className='navbar flex space-x-4 border border-gray-600 bg-gray-900 rounded-full'>
+              <div className='hidden sm:block'>
+                <div className='navbar flex space-x-3 border border-gray-600 bg-gray-900 rounded-full'>
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
@@ -81,7 +90,7 @@ export default function NavBar() {
                       className={classNames(
                         item.current
                           ? "bg-gray-100 text-gray-900"
-                          : "text-gray-50 hover:bg-gray-500 hover:text-white",
+                          : "text-gray-50 hover:bg-gray-700 hover:text-white",
                         "buttons rounded-full text-mg font-medium"
                       )}
                     >
@@ -91,7 +100,7 @@ export default function NavBar() {
                 </div>
               </div>
 
-              <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
+              <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0'>
                 {/* Profile dropdown */}
                 <Menu as='div' className='ml-3 relative'>
                   <div>
@@ -122,6 +131,7 @@ export default function NavBar() {
                           <Menu.Item>
                             {({ active }) => (
                               <button
+                                onClick={() => profileHandleClick()}
                                 className={classNames(
                                   active && "bg-gray-800 shadow-lg",
                                   "w-full px-4 py-2 text-sm text-gray-100"
