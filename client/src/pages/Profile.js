@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
+import VerifyEmail from "../components/VerifyEmail";
 
 export default function Profile() {
   const [appointments, setAppointments] = useState(null);
@@ -21,6 +22,10 @@ export default function Profile() {
 
   if (!isAuthenticated) {
     return <button onClick={() => loginWithPopup()}>Log in</button>;
+  }
+
+  if (!user.email_verified) {
+    return <VerifyEmail user={user} />;
   }
 
   return (
@@ -65,9 +70,7 @@ export default function Profile() {
                 <div className='flex flex-col text-center border border-gray-700 justify-center w-full md:w-10/12 lg:w-8/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
                   <div className='flex flex-col text-gray-200 p-5'>
                     <h1 className='font-bold text-xl pb-4'>Appointments</h1>
-                    {/* Appointments section with edit and delete */}
                     <AppointmentList appointments={appointments} />
-                    {/* Section ends */}
                   </div>
                 </div>
               </div>

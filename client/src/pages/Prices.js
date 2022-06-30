@@ -1,7 +1,7 @@
 import Loader from "../components/Loader";
 import PriceTable from "../components/PriceTable";
 import { useEffect, useState } from "react";
-import { get_services, get_categories, get_all_services } from "../api";
+import { get_all_services } from "../api";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Prices = () => {
