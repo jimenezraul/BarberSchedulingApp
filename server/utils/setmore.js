@@ -188,6 +188,13 @@ class Setmore {
         const services_in_category = services.filter((service) => {
           return category.serviceIdList.includes(service.key);
         });
+        
+        // sort services by price low to high
+        services_in_category.sort((a, b) => {
+          return a.cost - b.cost;
+        }
+        );
+
         return {
           ...category,
           services: services_in_category,

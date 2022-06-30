@@ -17,7 +17,7 @@ const Prices = () => {
     fetchData();
   }, [getAccessTokenSilently]);
   return (
-    <div className='mt-16 pt-3 text-gray-200 min-h-screen w-full p-2'>
+    <div className='mt-8 pt-3 text-gray-200 min-h-screen w-full p-2'>
       <div className='flex flex-col w-full overflow-y-auto'>
         <div className='flex justify-center w-full text-center'>
           <div className='flex justify-center text-gray-300 shadow-lg bg-gray-800 py-3 rounded-lg border border-gray-600 text-1xl font-bold w-10/12 md:w-8/12 lg:w-5/12 mb-2'>
@@ -44,10 +44,9 @@ const Prices = () => {
         ) : (
           <div>
             {allServices.map((service) => (
-              <div className='py-2 px-3 align-middle flex justify-center min-w-full'>
+              <div key={service.key} className='py-2 px-3 align-middle flex justify-center min-w-full'>
                 <div className='shadow-lg overflow-hidden w-full md:w-9/12 lg:w-6/12 rounded-lg border border-gray-600'>
                   <table
-                    key={service.key}
                     className='min-w-full divide-y divide-gray-600'
                   >
                     <thead className='bg-gray-800'>

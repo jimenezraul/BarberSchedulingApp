@@ -1,7 +1,4 @@
-import React from "react";
-
 const PriceTable = function (props) {
-  console.log(props);
   return (
     <tbody
       key={props.service_key}
