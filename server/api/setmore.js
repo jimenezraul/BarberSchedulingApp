@@ -33,4 +33,16 @@ router.get("/customer", auth, async (req, res) => {
   }
 });
 
+router.post("/appointments", auth, async (req, res) => {
+  const user = req.user;
+  const start_time = req.body.startDate;
+  const end_time = req.body.endDate;
+  try {
+    const appointments = await setmore.get_appointments(user, start_time, end_time);
+    return res.send(appointments);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
 module.exports = router;

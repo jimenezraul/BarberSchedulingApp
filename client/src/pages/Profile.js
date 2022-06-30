@@ -1,9 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { get_customer } from "../api";
+import { get_customer, get_appointments } from "../api";
+import AppointmentList from "../components/AppointmentList";
 
 export default function Profile() {
   const [customer, setCustomer] = useState(null);
+  const [appointments, setAppointments] = useState(null);
   const { user, isAuthenticated, loginWithPopup, getAccessTokenSilently } =
     useAuth0();
 
@@ -11,7 +13,9 @@ export default function Profile() {
     async function getCustomer() {
       const token = await getAccessTokenSilently();
       const customer = await get_customer(token);
+      const appointments = await get_appointments(token);
       setCustomer(customer.customer[0]);
+      setAppointments(appointments);
     }
     if (isAuthenticated) {
       getCustomer();
@@ -21,13 +25,13 @@ export default function Profile() {
   if (!isAuthenticated) {
     return <button onClick={() => loginWithPopup()}>Log in</button>;
   }
- 
+  console.log(appointments);
   return (
     <div className='flex-1'>
       <div className='container mx-auto mt-5'>
         <div className='w-full'>
           <div className='flex flex-col'>
-            <div className='flex flex-col justify-center mt-24 '>
+            <div className='flex flex-col justify-center'>
               <div className='p-5 flex justify-center'>
                 <div className='mt-10 mx-auto flex flex-col text-center  border border-gray-700 w-full md:w-6/12 lg:w-4/12 rounded-xl bg-gray-800 shadow-lg'>
                   <div className='mx-auto flex justify-center border-gray-600 w-48 md:w-80'>
@@ -63,10 +67,10 @@ export default function Profile() {
               <div className='px-5 flex justify-center w-full'>
                 <div className='flex flex-col text-center border border-gray-700 justify-center w-full md:w-10/12 lg:w-8/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
                   <div className='flex flex-col text-gray-200 p-5'>
-                    <h1 className='font-bold'>Appointments</h1>
+                    <h1 className='font-bold text-xl pb-4'>Appointments</h1>
                     {/* Appointments section with edit and delete */}
-                    {/* <AppointmentList user={user} />}
-                {/* Section ends */}
+                    <AppointmentList appointments={appointments} />
+                    {/* Section ends */}
                   </div>
                 </div>
               </div>

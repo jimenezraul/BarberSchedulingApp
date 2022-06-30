@@ -1,6 +1,7 @@
 const axios = require("axios");
 const url = "https://developer.setmore.com";
 require("dotenv").config();
+const { formatDate, formatDateTime } = require("../utils/helpers");
 
 class Setmore {
   constructor() {
@@ -88,34 +89,95 @@ class Setmore {
     }
     return await categories(access_token);
   }
-    
-    async get_customer(user) {
-        const access_token = await this.get_access_token();
 
-        async function customer(token) {
-            try {
-                const endpoint = `/api/v2/bookingapi/customer?firstname=${user.givenName}&email=${user.email}`;
-                const response = await axios.get(url + endpoint, {
-                    headers: {
-                        Authorization: "Bearer " + token,
-                        "Content-Type": "application/json",
-                    },
-                });
+  async get_customer(user) {
+    const access_token = await this.get_access_token();
 
-                if (!response.data.response) {
-                    const newToken = await this.get_new_access_token();
-                    access_token = newToken;
-                    return await customer(newToken);
-                }
+    async function customer(token) {
+      try {
+        const endpoint = `/api/v2/bookingapi/customer?firstname=${user.givenName}&email=${user.email}`;
+        const response = await axios.get(url + endpoint, {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        });
 
-                const data = response.data.data;
-                return data;
-            } catch (error) {
-                return error;
-            }
+        if (!response.data.response) {
+          const newToken = await this.get_new_access_token();
+          access_token = newToken;
+          return await customer(newToken);
         }
-        return await customer(access_token);
+
+        const data = response.data.data;
+        return data;
+      } catch (error) {
+        return error;
+      }
     }
+    return await customer(access_token);
+  }
+
+  async get_appointments(user, start_time, end_time) {
+    // Access token
+    const access_token = await this.get_access_token();
+    const services = await this.get_services();
+    const categories = await this.get_categories();
+    // Client
+    const client = await this.get_customer(user);
+    const client_key = client.customer[0].key;
+    // Formatted dates
+    const start_time_formatted = formatDate(start_time);
+    const end_time_formatted = formatDate(end_time);
+
+    async function appointments(token) {
+      try {
+        const endpoint = `/api/v1/bookingapi/appointments?startDate=${start_time_formatted}&endDate=${end_time_formatted}&customerDetails=true`;
+        const response = await axios.get(url + endpoint, {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.data.response) {
+          const newToken = await this.get_new_access_token();
+          access_token = newToken;
+          return await appointments(newToken);
+        }
+
+        let data = response.data.data;
+
+        // filter out appointments that are not for the customer
+        let appointments = data.appointments.filter((appointment) => {
+          return appointment.customer.key === client_key;
+        });
+
+        appointments = appointments.map((appointment) => {
+          //check if appointment.service_key is in category.serviceIdList
+          const category = categories.service_categories
+            .slice(1)
+            .find((category) =>
+              category.serviceIdList.includes(appointment.service_key)
+            );
+
+          const service = services.find((service) => {
+            return service.key === appointment.service_key;
+          });
+          return {
+            ...appointment,
+            date: formatDateTime(appointment.start_time),
+            service: service,
+            category: category,
+          };
+        });
+        return appointments;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await appointments(access_token);
+  }
 }
 
 module.exports = Setmore;

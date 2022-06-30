@@ -43,3 +43,35 @@ export const get_customer = async (accessToken) => {
     return error;
   }
 };
+
+export const get_appointments = async (accessToken) => {
+  const link = "/api/appointments";
+  // today's date
+  const start_time = new Date().toLocaleDateString();
+  // 6 months from now
+  const end_time = new Date(
+    new Date().getTime() + 30 * 24 * 60 * 60 * 1000 * 6
+  ).toLocaleDateString();
+
+  try {
+    const res = await fetch(link, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        startDate: start_time,
+        endDate: end_time,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    const appointments = await res.json();
+
+    return appointments;
+  } catch (error) {
+    return error;
+  }
+};
