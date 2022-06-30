@@ -178,6 +178,24 @@ class Setmore {
     }
     return await appointments(access_token);
   }
+
+  async get_all_services() {
+    const categories = await this.get_categories();
+    const services = await this.get_services();
+    const all_services = categories.service_categories
+      .slice(1)
+      .map((category) => {
+        const services_in_category = services.filter((service) => {
+          return category.serviceIdList.includes(service.key);
+        });
+        return {
+          ...category,
+          services: services_in_category,
+        };
+      });
+
+    return all_services;
+  }
 }
 
 module.exports = Setmore;

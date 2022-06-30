@@ -14,6 +14,15 @@ router.get("/services", async (req, res) => {
   }
 });
 
+router.get("/all-services", auth, async (req, res) => {
+  try {
+    const services = await setmore.get_all_services();
+    return res.send(services);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 router.get("/categories", async (req, res) => {
   try {
     const categories = await setmore.get_categories();
@@ -38,7 +47,11 @@ router.post("/appointments", auth, async (req, res) => {
   const start_time = req.body.startDate;
   const end_time = req.body.endDate;
   try {
-    const appointments = await setmore.get_appointments(user, start_time, end_time);
+    const appointments = await setmore.get_appointments(
+      user,
+      start_time,
+      end_time
+    );
     return res.send(appointments);
   } catch (error) {
     return res.send(error);

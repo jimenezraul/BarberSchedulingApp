@@ -1,5 +1,4 @@
 const AppCard = ({ appointment }) => {
-  console.log(appointment);
   return (
     <div key={appointment.service.key} className='flex'>
       <div className='p-5 w-8/12 md:w-8/12 flex flex-col justify-between border-t border-gray-700'>

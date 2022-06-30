@@ -1,10 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { get_customer, get_appointments } from "../api";
+import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
 
 export default function Profile() {
-  const [customer, setCustomer] = useState(null);
   const [appointments, setAppointments] = useState(null);
   const { user, isAuthenticated, loginWithPopup, getAccessTokenSilently } =
     useAuth0();
@@ -12,9 +11,7 @@ export default function Profile() {
   useEffect(() => {
     async function getCustomer() {
       const token = await getAccessTokenSilently();
-      const customer = await get_customer(token);
       const appointments = await get_appointments(token);
-      setCustomer(customer.customer[0]);
       setAppointments(appointments);
     }
     if (isAuthenticated) {
@@ -25,7 +22,7 @@ export default function Profile() {
   if (!isAuthenticated) {
     return <button onClick={() => loginWithPopup()}>Log in</button>;
   }
-  console.log(appointments);
+
   return (
     <div className='flex-1'>
       <div className='container mx-auto mt-5'>

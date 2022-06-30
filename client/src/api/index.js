@@ -1,10 +1,13 @@
 export const get_services = async () => {
   try {
     const res = await fetch("/api/services");
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
+
     const services = await res.json();
+
     return services;
   } catch (error) {
     return error;
@@ -14,9 +17,11 @@ export const get_services = async () => {
 export const get_categories = async () => {
   try {
     const res = await fetch("/api/categories");
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
+
     const categories = await res.json();
 
     return categories.service_categories;
@@ -33,9 +38,11 @@ export const get_customer = async (accessToken) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
+
     const customer = await res.json();
 
     return customer;
@@ -65,12 +72,35 @@ export const get_appointments = async (accessToken) => {
         endDate: end_time,
       }),
     });
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
+
     const appointments = await res.json();
 
     return appointments;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const get_all_services = async (accessToken) => {
+  try {
+    const res = await fetch("/api/all-services", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const services = await res.json();
+
+    return services;
   } catch (error) {
     return error;
   }
