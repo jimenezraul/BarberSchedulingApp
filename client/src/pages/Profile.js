@@ -2,11 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
+import Login from "../components/Login";
 import VerifyEmail from "../components/VerifyEmail";
 
 export default function Profile() {
   const [appointments, setAppointments] = useState(null);
-  const { user, isAuthenticated, loginWithPopup, getAccessTokenSilently } =
+  const { user, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Profile() {
   }, [getAccessTokenSilently, isAuthenticated]);
 
   if (!isAuthenticated) {
-    return <button onClick={() => loginWithPopup()}>Log in</button>;
+    return <Login />;
   }
 
   if (!user.email_verified) {
