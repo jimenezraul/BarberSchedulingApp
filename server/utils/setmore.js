@@ -2,6 +2,7 @@ const axios = require("axios");
 const url = "https://developer.setmore.com";
 require("dotenv").config();
 const { formatDate, formatDateTime } = require("../utils/helpers");
+const fs = require("fs");
 
 class Setmore {
   constructor() {
@@ -201,6 +202,21 @@ class Setmore {
       });
 
     return all_services;
+  }
+
+  get_gallery() {
+    // get all images from  public/assets/gallery
+    const gallery = fs.readdirSync("./public/assets/gallery");
+    
+    // get url for each image
+    const gallery_url = gallery.map((image) => {
+      return {
+        url: `/assets/gallery/${image}`,
+        name: image,
+      };
+    });
+   
+    return gallery_url;
   }
 }
 

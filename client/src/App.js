@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Prices from "./pages/Prices";
 import Profile from "./pages/Profile";
+import Gallery from "./pages/Gallery";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/gallery' element={<Gallery />} />
           <Route path='/prices' element={<Prices />} />
           <Route path='/profile' element={<Profile />} />
         </Routes>

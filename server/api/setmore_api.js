@@ -4,6 +4,12 @@ const auth = require("../utils/auth");
 
 const setmore = new Setmore();
 
+router.get("/gallery", async (req, res) => {
+  
+  const gallery = await setmore.get_gallery();
+  res.json(gallery);
+});
+
 router.get("/services", async (req, res) => {
   try {
     const services = await setmore.get_services();

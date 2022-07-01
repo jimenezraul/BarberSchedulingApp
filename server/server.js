@@ -21,18 +21,18 @@ const jwtCheck = expressJwt({
   audience: process.env.AUDIENCE,
   issuer: process.env.ISSUER,
   algorithms: [process.env.ALGORITHMS],
-}).unless({ path: ["/api/services", "/api/categories"] });
+}).unless({ path: ["/api/services", "/api/categories", "/api/gallery"] });
 
 app.use(jwtCheck);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
- 
+
 app.use(express.static(publicPath));
 
 app.use(require("./api/"));
 app.use((err, req, res, next) => {
-    console.log(err);
+  console.log(err);
   const status = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
   res.status(status).send(message);

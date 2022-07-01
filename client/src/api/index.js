@@ -1,3 +1,19 @@
+export const get_gallery = async () => {
+  try {
+    const res = await fetch("/api/gallery");
+    
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const get_services = async () => {
   try {
     const res = await fetch("/api/services");
