@@ -110,6 +110,7 @@ export default function NavBar() {
                         className='h-10 w-10 rounded-full'
                         src={!user ? "/assets/img/user.png" : user?.picture}
                         alt=''
+                        referrerpolicy='no-referrer'
                       />
                     </Menu.Button>
                   </div>
@@ -122,7 +123,7 @@ export default function NavBar() {
                     leaveFrom='transform opacity-100 scale-100'
                     leaveTo='transform opacity-0 scale-95'
                   >
-                    <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg shadow-gray-800 py-1 border border-gray-600 bg-gray-700 focus:outline-none'>
+                    <Menu.Items className='origin-top-right absolute right-0 mt-2 w-52 rounded-md shadow-lg shadow-gray-800 py-1 border border-gray-600 bg-gray-700 focus:outline-none'>
                       {isAuthenticated ? (
                         <>
                           <p className='text-center text-sm font-medium text-gray-100 border-b border-gray-600 pb-2'>

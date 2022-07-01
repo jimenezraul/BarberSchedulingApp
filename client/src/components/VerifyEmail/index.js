@@ -6,7 +6,7 @@ const VerifyEmail = (props) => {
         <h1 className='text-gray-50 text-2xl border-b border-gray-600 pb-4'>
           Please verify your email address
         </h1>
-        <div className="pt-4">
+        <div className='pt-4'>
           <p className='text-gray-50'>
             We've sent you an email to{" "}
             <span className='font-bold'>{user.email}</span>

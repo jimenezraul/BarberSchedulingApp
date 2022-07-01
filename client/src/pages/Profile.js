@@ -7,8 +7,7 @@ import VerifyEmail from "../components/VerifyEmail";
 
 export default function Profile() {
   const [appointments, setAppointments] = useState(null);
-  const { user, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     async function getCustomer() {
@@ -54,7 +53,8 @@ export default function Profile() {
                       <img
                         className='-mt-14 border-2 border-gray-600 shadow-md rounded-full h-28 bg-gray-700'
                         src={user.picture.replace("s96-c", "s384-c", true)}
-                        alt=''
+                        alt='Profile'
+                        referrerpolicy='no-referrer'
                       />
                     )}
                   </div>

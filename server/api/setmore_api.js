@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const axios = require("axios");
 const Setmore = require("../utils/setmore");
 const auth = require("../utils/auth");
 
