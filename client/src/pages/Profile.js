@@ -54,7 +54,7 @@ export default function Profile() {
                         className='-mt-14 border-2 border-gray-600 shadow-md rounded-full h-28 bg-gray-700'
                         src={user.picture.replace("s96-c", "s384-c", true)}
                         alt='Profile'
-                        referrerpolicy='no-referrer'
+                        referrerPolicy='no-referrer'
                       />
                     )}
                   </div>

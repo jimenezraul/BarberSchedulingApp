@@ -2,20 +2,17 @@ import Loader from "../components/Loader";
 import PriceTable from "../components/PriceTable";
 import { useEffect, useState } from "react";
 import { get_all_services } from "../api";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const Prices = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const [allServices, setAllServices] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const token = await getAccessTokenSilently();
-      const services = await get_all_services(token);
+      const services = await get_all_services();
       setAllServices(services);
     }
     fetchData();
-  }, [getAccessTokenSilently]);
+  }, []);
   return (
     <div className='mt-8 pt-3 text-gray-200 min-h-screen w-full p-2'>
       <div className='flex flex-col w-full overflow-y-auto'>

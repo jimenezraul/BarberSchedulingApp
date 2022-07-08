@@ -110,7 +110,7 @@ export default function NavBar() {
                         className='h-10 w-10 rounded-full'
                         src={!user ? "/assets/img/user.png" : user?.picture}
                         alt=''
-                        referrerpolicy='no-referrer'
+                        referrerPolicy='no-referrer'
                       />
                     </Menu.Button>
                   </div>
@@ -127,7 +127,7 @@ export default function NavBar() {
                       {isAuthenticated ? (
                         <>
                           <p className='text-center text-sm font-medium text-gray-100 border-b border-gray-600 pb-2'>
-                            {user?.name}
+                            {user?.given_name}
                           </p>
                           <Menu.Item>
                             {({ active }) => (

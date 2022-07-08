@@ -21,7 +21,7 @@ const jwtCheck = expressJwt({
   audience: process.env.AUDIENCE,
   issuer: process.env.ISSUER,
   algorithms: [process.env.ALGORITHMS],
-}).unless({ path: ["/api/services", "/api/categories", "/api/gallery"] });
+}).unless({ path: ["/api/gallery", "/api/all-services"] });
 
 app.use(jwtCheck);
 

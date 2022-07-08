@@ -101,14 +101,9 @@ export const get_appointments = async (accessToken) => {
   }
 };
 
-export const get_all_services = async (accessToken) => {
+export const get_all_services = async () => {
   try {
-    const res = await fetch("/api/all-services", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch("/api/all-services");
 
     if (!res.ok) {
       throw new Error(res.statusText);

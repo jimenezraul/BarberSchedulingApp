@@ -10,8 +10,6 @@ const Gallery = () => {
     });
   }, []);
 
-  console.log(gallery);
-
   return (
     <div className='flex flex-wrap justify-center w-full p-3'>
       <div className='flex flex-wrap  mb-2 md:mb-0 w-full bg-gray-700 text-gray-300 rounded-lg shadow-lg border border-gray-700'>

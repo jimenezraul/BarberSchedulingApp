@@ -10,7 +10,7 @@ router.get("/gallery", async (req, res) => {
   res.json(gallery);
 });
 
-router.get("/services", async (req, res) => {
+router.get("/services", auth, async (req, res) => {
   try {
     const services = await setmore.get_services();
     return res.send(services);
@@ -19,7 +19,7 @@ router.get("/services", async (req, res) => {
   }
 });
 
-router.get("/all-services", auth, async (req, res) => {
+router.get("/all-services", async (req, res) => {
   try {
     const services = await setmore.get_all_services();
     return res.send(services);
