@@ -14,7 +14,7 @@ const Prices = () => {
     fetchData();
   }, []);
   return (
-    <div className='mt-8 pt-3 text-gray-200 min-h-screen w-full p-2'>
+    <div className='mt-8 pt-3 text-gray-200 w-full p-2'>
       <div className='flex flex-col w-full overflow-y-auto'>
         <div className='flex justify-center w-full text-center'>
           <div className='flex justify-center text-gray-300 shadow-lg bg-gray-800 py-3 rounded-lg border border-gray-600 text-1xl font-bold w-10/12 md:w-8/12 lg:w-5/12 mb-2'>

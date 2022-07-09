@@ -15,21 +15,12 @@ function Home() {
                 TheBarber
               </h1>
               <Link
-                to='/appointments'
+                to='/booknow'
                 className='block text-center text-gray-200 hover:bg-gray-200 hover:text-gray-700 font-bold rounded-full border py-2 text-2xl my-font2 uppercase'
               >
                 Book Now
               </Link>
               <div className='mt-6 w-full text-center'>
-                <div
-                  className='fb-like'
-                  data-href='https://raulthebarber.net'
-                  data-width=''
-                  data-layout='button_count'
-                  data-action='like'
-                  data-size='large'
-                  data-share='true'
-                ></div>
                 <div className='mt-5 pt-5 flex flex-wrap justify-center divide-y-2 border-t border-gray-500'>
                   <div className='w-full text-center flex justify-center items-center'>
                     <Link to='https://www.facebook.com/raulthebarber81'>

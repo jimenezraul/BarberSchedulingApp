@@ -1,9 +1,7 @@
 import Loader from "../Loader";
 import AppCard from "./AppCard";
 
-function AppointmentList(props) {
-  const appointments = props.appointments;
-
+function AppointmentList({ appointments }) {
   return (
     <div>
       <div>

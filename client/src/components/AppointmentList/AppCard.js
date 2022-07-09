@@ -1,16 +1,20 @@
 const AppCard = ({ appointment }) => {
+  const { categoryName } = appointment.category;
+  const { service_name, cost } = appointment.service;
+  const { date, time } = appointment.date;
+
   return (
     <div key={appointment.service.key} className='flex'>
       <div className='p-5 w-8/12 md:w-8/12 flex flex-col justify-between border-t border-gray-700'>
         <div className='flex justify-center mb-3'>
           <p className='text-gray-100 bg-blue-500 px-3 py-1 rounded-lg shadow font-semibold'>
-            {appointment.category.categoryName}
+            {categoryName}
           </p>
         </div>
-        <h4>{appointment.service.service_name}</h4>
-        <p>Price: ${appointment.cost}</p>
-        <h4>{appointment.date.date}</h4>
-        <h4>at {appointment.date.time}</h4>
+        <h4>{service_name}</h4>
+        <p>Price: ${cost}</p>
+        <h4>{date}</h4>
+        <h4>at {time}</h4>
       </div>
       <div className='w-4/12 md:w-4/12 text-2xl sm:space-x-2 md:space-x-8 justify-center items-center flex border-t border-gray-700'>
         <i
