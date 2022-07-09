@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Setmore = require("../utils/setmore");
 const auth = require("../utils/auth");
+const { jwtCheck } = require("../utils/jwks");
 
 const setmore = new Setmore();
 
@@ -10,11 +11,12 @@ router.get("/gallery", async (req, res) => {
   res.json(gallery);
 });
 
-router.get("/services", auth, async (req, res) => {
+router.get("/services", jwtCheck, auth, async (req, res) => {
   try {
     const services = await setmore.get_services();
     return res.send(services);
   } catch (error) {
+    console.log("hello error", error.message);
     res.send(error);
   }
 });
@@ -37,7 +39,7 @@ router.get("/categories", async (req, res) => {
   }
 });
 
-router.get("/customer", auth, async (req, res) => {
+router.get("/customer", jwtCheck, auth, async (req, res) => {
   const user = req.user;
   try {
     const customer = await setmore.get_customer(user);
@@ -47,7 +49,7 @@ router.get("/customer", auth, async (req, res) => {
   }
 });
 
-router.post("/appointments", auth, async (req, res) => {
+router.post("/appointments", jwtCheck, auth, async (req, res) => {
   const user = req.user;
   const start_time = req.body.startDate;
   const end_time = req.body.endDate;

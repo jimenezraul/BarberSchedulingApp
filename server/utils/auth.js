@@ -19,10 +19,11 @@ const auth = async (req, res, next) => {
         Authorization: `Bearer ${token}`,
       },
     });
-   
+
     const userinfo = response.data;
-      req.user = userinfo;
-        next();
+
+    req.user = userinfo;
+    next();
   } catch {
     console.log("Invalid token");
   }
