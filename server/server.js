@@ -9,12 +9,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(require("./api/"));
 
-app.use((err, req, res, next) => {
-  const status = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  res.status(status).send(message);
-});
-
 app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
@@ -23,6 +17,12 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 }
+
+app.use((err, req, res, next) => {
+  const status = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(status).send(message);
+});
 
 app.listen(port, () => {
   console.log(`Server is up! ${port}`);
