@@ -5,8 +5,6 @@ const { expressjwt: expressJwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
 
-const publicPath = path.join(__dirname, "..", "build");
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -28,8 +26,6 @@ app.use(jwtCheck);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(publicPath));
-
 app.use(require("./api/"));
 app.use((err, req, res, next) => {
   console.log(err);
@@ -38,8 +34,12 @@ app.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(publicPath, "index.html"));
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 app.listen(port, () => {
   console.log(`Server is up! http://localhost:${port}`);
