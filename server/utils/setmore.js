@@ -3,6 +3,7 @@ const url = "https://developer.setmore.com";
 require("dotenv").config();
 const { formatDate, formatDateTime } = require("../utils/helpers");
 const fs = require("fs");
+const path = require("path");
 
 class Setmore {
   constructor() {
@@ -206,7 +207,7 @@ class Setmore {
 
   get_gallery() {
     // get all images from  public/assets/gallery
-    const gallery = fs.readdirSync("./public/assets/gallery");
+    const gallery = fs.readdirSync(path.join(__dirname, "../public/assets/gallery"));
     
     // get url for each image
     const gallery_url = gallery.map((image) => {
