@@ -19,7 +19,15 @@ const jwtCheck = expressJwt({
   audience: process.env.AUDIENCE,
   issuer: process.env.ISSUER,
   algorithms: [process.env.ALGORITHMS],
-}).unless({ path: ["/api/gallery", "/api/all-services", "/*"] });
+}).unless({ path: ["/api/gallery", "/api/all-services", "/"] });
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 app.use(jwtCheck);
 
@@ -34,13 +42,6 @@ app.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-}
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
 app.listen(port, () => {
   console.log(`Server is up! http://localhost:${port}`);
 });
