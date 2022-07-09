@@ -142,18 +142,7 @@ export default function NavBar() {
                               </button>
                             )}
                           </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={classNames(
-                                  active && "bg-gray-800 shadow-lg",
-                                  "w-full px-4 py-2 text-sm text-gray-100"
-                                )}
-                              >
-                                Settings
-                              </button>
-                            )}
-                          </Menu.Item>
+                          
                           <Menu.Item>
                             {({ active }) => (
                               <button

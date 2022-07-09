@@ -11,7 +11,7 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className='flex flex-wrap justify-center w-full p-3'>
+    <div className='flex flex-wrap justify-center w-full p-3 container mx-auto'>
       <div className='flex flex-wrap  mb-2 md:mb-0 w-full bg-gray-700 text-gray-300 rounded-lg shadow-lg border border-gray-700'>
         <div className='mb-2 p-2 rounded-t-lg w-full text-center font-bold text-2xl bg-gray-800'>
           <h1>Gallery</h1>

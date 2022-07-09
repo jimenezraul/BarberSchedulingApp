@@ -19,7 +19,7 @@ function AppointmentList(props) {
           <div className='flex justify-center '>
             <div
               id='noApp'
-              className='p-5 w-full justify-center flex flex-col border-t dark:border-gray-700'
+              className='p-5 w-full justify-center flex flex-col border-t border-gray-700'
             >
               <h4>You don't have any upcoming appointments.</h4>
             </div>

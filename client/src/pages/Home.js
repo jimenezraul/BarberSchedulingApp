@@ -6,8 +6,8 @@ function Home() {
       <div className='bg-img flex'>
         <div className='container mx-auto md:px-14 mt-5 flex'>
           <div className='flex-1 flex flex-col justify-center'>
-            <div className='w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 mx-auto mt-5'>
-              <h1 className='mb-2 font-bold text-3xl text-gray-200 my-font2'>
+            <div className='w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 mx-auto mt-24'>
+              <h1 className='mb-2 font-bold text-3xl text-gray-100 my-font2 outline-4'>
                 Welcome
               </h1>
               <h1 className='shadow-lg mb-5 border border-gray-500 rounded-full bg-gray-800 filter drop-shadow-lg text-center font-bold py-2 text-4xl text-gray-300 my-font'>
