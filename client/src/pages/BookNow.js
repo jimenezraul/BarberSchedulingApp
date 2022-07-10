@@ -7,8 +7,12 @@ import Loader from "../components/Loader";
 import SideCard from "../components/ServiceCard";
 import TimeCard from "../components/TimeCard";
 import { formatDate } from "../utils/helpers";
+import { useAuth0 } from "@auth0/auth0-react";
+import Login from "../components/Login";
+import ConfirmCard from "../components/ConfirmCard";
 
 const BookNow = () => {
+  const { isAuthenticated } = useAuth0();
   const [section, setSection] = useState("All Services");
   const [allServices, setAllServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
@@ -23,9 +27,13 @@ const BookNow = () => {
     fetchData();
   }, []);
 
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
   return (
-    <div className='container mx-auto flex-1'>
-      <div className='flex flex-col text-gray-50 mt-5'>
+    <div className='container mx-auto flex flex-1'>
+      <div className='flex flex-col text-gray-50 mt-1 flex-1'>
         {/* All Services */}
         {section === "All Services" && (
           <div className='flex flex-wrap'>
@@ -91,8 +99,13 @@ const BookNow = () => {
         {/* End Times */}
         {/* Confirm */}
         {section === "Confirm" && (
-          <div className='flex flex-wrap'>
-            <h1>Confirm</h1>
+          <div className='p-1 flex flex-wrap flex-1 justify-center content-center'>
+            <ConfirmCard
+              selectedService={selectedService}
+              selectedDate={formatDate(selectedDate)}
+              selectedTime={selectedTime}
+              setSection={setSection}
+            />
           </div>
         )}
       </div>

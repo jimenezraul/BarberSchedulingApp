@@ -37,7 +37,7 @@ class Setmore {
   }
 
   async get_services() {
-    const access_token = await this.get_access_token();
+    const token = await this.get_access_token();
 
     async function prices(token) {
       try {
@@ -51,7 +51,7 @@ class Setmore {
 
         if (!response.data.response) {
           const newToken = await this.get_new_access_token();
-          access_token = newToken;
+          this.access_token = newToken;
           return await get_prices(newToken);
         }
 
@@ -62,11 +62,11 @@ class Setmore {
         return error;
       }
     }
-    return await prices(access_token);
+    return await prices(token);
   }
 
   async get_categories() {
-    const access_token = await this.get_access_token();
+    const token = await this.get_access_token();
 
     async function categories(token) {
       try {
@@ -80,7 +80,7 @@ class Setmore {
 
         if (!response.data.response) {
           const newToken = await this.get_new_access_token();
-          access_token = newToken;
+          this.access_token = newToken;
           return await categories(newToken);
         }
 
@@ -90,11 +90,11 @@ class Setmore {
         return error;
       }
     }
-    return await categories(access_token);
+    return await categories(token);
   }
 
   async get_customer(user) {
-    const access_token = await this.get_access_token();
+    const token = await this.get_access_token();
 
     async function customer(token) {
       try {
@@ -108,7 +108,7 @@ class Setmore {
 
         if (!response.data.response) {
           const newToken = await this.get_new_access_token();
-          access_token = newToken;
+          this.access_token = newToken;
           return await customer(newToken);
         }
 
@@ -118,12 +118,12 @@ class Setmore {
         return error;
       }
     }
-    return await customer(access_token);
+    return await customer(token);
   }
 
   async get_appointments(user, start_time, end_time) {
     // Access token
-    const access_token = await this.get_access_token();
+    const token = await this.get_access_token();
     const services = await this.get_services();
     const categories = await this.get_categories();
     // Client
@@ -145,7 +145,7 @@ class Setmore {
 
         if (!response.data.response) {
           const newToken = await this.get_new_access_token();
-          access_token = newToken;
+          this.access_token = newToken;
           return await appointments(newToken);
         }
 
@@ -179,7 +179,7 @@ class Setmore {
         return error;
       }
     }
-    return await appointments(access_token);
+    return await appointments(token);
   }
 
   async get_all_services() {
@@ -224,7 +224,7 @@ class Setmore {
   }
 
   async get_availability(staff, service, date) {
-    const access_token = await this.get_access_token();
+    const token = await this.get_access_token();
 
     async function getAvailability(token) {
       try {
@@ -253,7 +253,7 @@ class Setmore {
         return error;
       }
     }
-    return await getAvailability(access_token);
+    return await getAvailability(token);
   }
 }
 
