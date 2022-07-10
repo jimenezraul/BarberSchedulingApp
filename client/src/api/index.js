@@ -1,7 +1,9 @@
+const { militaryToStandard } = require("../utils/helpers");
+
 export const get_gallery = async () => {
   try {
     const res = await fetch("/api/gallery");
-    
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
@@ -110,6 +112,37 @@ export const get_all_services = async () => {
     }
 
     const services = await res.json();
+
+    return services;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const get_availability = async (staff, service, date, accessToken) => {
+  try {
+    const res = await fetch(
+      `/api/get_available_times?staff=${staff}&service=${service}&date=${date}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    let services = await res.json();
+    
+    services = services.data.slots.map((slot) => {
+      return {
+        slot: slot,
+        time: militaryToStandard(slot),
+      };
+    });
 
     return services;
   } catch (error) {

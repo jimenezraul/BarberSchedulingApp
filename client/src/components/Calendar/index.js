@@ -2,7 +2,11 @@ import Calendar from "react-calendar";
 import { pastdate } from "../../utils/helpers";
 import "./style.css";
 
-const CalendarScreen = ({ setSelectedDate }) => {
+const CalendarScreen = ({ setSelectedDate, setSection }) => {
+  const clickHandler = (date) => {
+    setSelectedDate(date);
+    setSection("Times");
+  };
   return (
     <div className='flex flex-col'>
       <div className='relative p-5 bg-gray-800 rounded-t-lg shadow'>
@@ -19,7 +23,7 @@ const CalendarScreen = ({ setSelectedDate }) => {
       <div className='flex flex-col h-full p-5'>
         <Calendar
           calendarType='US'
-          onClickDay={(value) => setSelectedDate(value)}
+          onClickDay={(value) => clickHandler(value)}
           tileDisabled={pastdate}
         />
       </div>

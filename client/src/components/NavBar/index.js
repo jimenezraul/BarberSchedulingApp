@@ -54,7 +54,7 @@ export default function NavBar() {
   };
 
   return (
-    <Disclosure as='nav' className='bg-gray-800'>
+    <Disclosure as='nav' className='bg-gray-800 z-50'>
       {({ open }) => (
         <>
           <div className='max-w-7xl mx-auto px-2 lg:px-8'>

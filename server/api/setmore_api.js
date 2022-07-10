@@ -6,7 +6,6 @@ const { jwtCheck } = require("../utils/jwks");
 const setmore = new Setmore();
 
 router.get("/gallery", async (req, res) => {
-  
   const gallery = await setmore.get_gallery();
   res.json(gallery);
 });
@@ -16,7 +15,6 @@ router.get("/services", jwtCheck, auth, async (req, res) => {
     const services = await setmore.get_services();
     return res.send(services);
   } catch (error) {
-    console.log("hello error", error.message);
     res.send(error);
   }
 });
@@ -60,6 +58,22 @@ router.post("/appointments", jwtCheck, auth, async (req, res) => {
       end_time
     );
     return res.send(appointments);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+router.get("/get_available_times", jwtCheck, auth, async (req, res) => {
+  
+  const { staff, service, date } = req.query;
+  try {
+    const available_times = await setmore.get_availability(
+      staff,
+      service,
+      date
+    );
+    
+    return res.send(available_times);
   } catch (error) {
     return res.send(error);
   }

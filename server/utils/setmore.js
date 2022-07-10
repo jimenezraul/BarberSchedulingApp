@@ -4,6 +4,7 @@ require("dotenv").config();
 const { formatDate, formatDateTime } = require("../utils/helpers");
 const fs = require("fs");
 const path = require("path");
+const { militaryToStandard } = require("../utils/helpers");
 
 class Setmore {
   constructor() {
@@ -14,8 +15,8 @@ class Setmore {
     if (this.access_token) {
       return this.access_token;
     }
-    await this.get_new_access_token();
-    return this.access_token;
+    const new_token = await this.get_new_access_token();
+    return new_token;
   }
 
   async get_new_access_token() {
@@ -207,8 +208,10 @@ class Setmore {
 
   get_gallery() {
     // get all images from  public/assets/gallery
-    const gallery = fs.readdirSync(path.join(__dirname, "../public/assets/gallery"));
-    
+    const gallery = fs.readdirSync(
+      path.join(__dirname, "../public/assets/gallery")
+    );
+
     // get url for each image
     const gallery_url = gallery.map((image) => {
       return {
@@ -216,8 +219,41 @@ class Setmore {
         name: image,
       };
     });
-   
+
     return gallery_url;
+  }
+
+  async get_availability(staff, service, date) {
+    const access_token = await this.get_access_token();
+
+    async function getAvailability(token) {
+      try {
+        const link = "/api/v2/bookingapi/appointments/slots";
+        const body = JSON.stringify({
+          staff_key: `${staff}`,
+          service_key: `${service}`,
+          selected_date: `${date}`,
+          slot_limit: 30,
+        });
+        const response = await axios.post(url + link, body, {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.data.response) {
+          const newToken = await this.get_new_access_token();
+          this.access_token = newToken;
+          return await getAvailability(newToken);
+        }
+        
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await getAvailability(access_token);
   }
 }
 
