@@ -150,15 +150,15 @@ export const get_availability = async (staff, service, date, accessToken) => {
   }
 };
 
-export const create_appointment = async (
+export const create_appointment = async ({
   staff_key,
   service_key,
   customer_key,
   start_time,
   end_time,
   cost,
-  accessToken
-) => {
+  accessToken,
+}) => {
   try {
     const res = await fetch("/api/create_appointment", {
       method: "POST",

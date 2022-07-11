@@ -293,6 +293,7 @@ class Setmore {
     end_time,
     cost
   ) {
+    
     const token = await this.get_access_token();
 
     async function createAppointment(token) {
@@ -312,7 +313,7 @@ class Setmore {
             "Content-Type": "application/json",
           },
         });
-
+      
         return response.data;
       } catch (error) {
         return error;

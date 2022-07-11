@@ -8,6 +8,7 @@ import BookNow from "./pages/BookNow";
 import Prices from "./pages/Prices";
 import Profile from "./pages/Profile";
 import Gallery from "./pages/Gallery";
+import Success from "./pages/Success";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/gallery' element={<Gallery />} />
           <Route path='/prices' element={<Prices />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/success' element={<Success />} />
         </Routes>
         <Footer />
       </div>

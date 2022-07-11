@@ -36,12 +36,12 @@ export default function Profile() {
           <div className='flex flex-col'>
             <div className='flex flex-col justify-center'>
               <div className='p-5 flex justify-center'>
-                <div className='mt-10 mx-auto flex flex-col text-center  border border-gray-700 w-full md:w-6/12 lg:w-4/12 rounded-xl bg-gray-800 shadow-lg'>
+                <div className='mt-10 mx-auto flex flex-col text-center  border border-gray-600 w-full md:w-6/12 lg:w-4/12 rounded-xl bg-gray-800 shadow-lg'>
                   <div className='mx-auto flex justify-center border-gray-600 w-48 md:w-80'>
                     {user.provider === "email" ? (
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
-                        className='-mt-14 h-28 bg-gray-800 shadow-lg rounded-full fill-current text-gray-100 dark:text-gray-300 bi bi-person-circle'
+                        className='-mt-14 h-28 bg-gray-800 shadow-lg rounded-full fill-current text-gray-300 bi bi-person-circle'
                         viewBox='0 0 16 16'
                       >
                         <path d='M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z' />
@@ -69,8 +69,8 @@ export default function Profile() {
             </div>
             <div className='flex flex-col justify-center'>
               <div className='px-5 flex justify-center w-full'>
-                <div className='flex flex-col text-center border border-gray-700 justify-center w-full md:w-10/12 lg:w-8/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
-                  <div className='flex flex-col text-gray-200 p-5'>
+                <div className='overflow-hidden flex flex-col text-center border border-gray-600 justify-center w-full md:w-10/12 lg:w-8/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
+                  <div className='flex flex-col text-gray-200 pt-5'>
                     <h1 className='font-bold text-xl pb-4'>Appointments</h1>
                     <AppointmentList appointments={appointments} />
                   </div>

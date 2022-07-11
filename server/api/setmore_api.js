@@ -83,7 +83,6 @@ router.post("/create_appointment", jwtCheck, auth, async (req, res) => {
     req.body;
   try {
     const appointment = await setmore.create_appointment(
-      user,
       staff_key,
       service_key,
       customer_key,

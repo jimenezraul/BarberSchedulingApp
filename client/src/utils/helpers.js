@@ -79,3 +79,28 @@ export function militaryToStandard(time) {
   }
   return [hour, minute].join(":") + morning;
 }
+
+export function formatDateToSetmore(date, time) {
+  let d = new Date(date);
+  let day = d.getDate();
+  let month = d.getMonth() + 1;
+  let year = d.getFullYear();
+  let hour = time.split(".")[0];
+  let minute = time.split(".")[1];
+
+  if (month < 10) {
+    month = "0" + month;
+  }
+  if (day < 10) {
+    day = "0" + day;
+  }
+
+  let newDate = `${year}-${month}-${day}T${hour}:${minute}:00.000Z`;
+  let start_time = new Date(newDate);
+  start_time = start_time.toISOString();
+  let end_time = new Date(start_time);
+  // add 30 minutes to the end time
+  end_time.setMinutes(end_time.getMinutes() + 30);
+  end_time = end_time.toISOString();
+  return [start_time, end_time];
+}

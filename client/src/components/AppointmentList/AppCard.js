@@ -4,7 +4,7 @@ const AppCard = ({ appointment }) => {
   const { date, time } = appointment.date;
 
   return (
-    <div key={appointment.service.key} className='flex'>
+    <div key={appointment.service.key} className='flex bg-gray-700'>
       <div className='p-5 w-8/12 md:w-8/12 flex flex-col justify-between border-t border-gray-700'>
         <div className='flex justify-center mb-3'>
           <p className='text-gray-100 bg-blue-500 px-3 py-1 rounded-lg shadow font-semibold'>

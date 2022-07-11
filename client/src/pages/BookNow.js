@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { get_all_services } from "../api";
+import { getOrCreate_customer, get_all_services } from "../api";
 import AppointmentCard from "../components/AppointmentCard";
 import CalendarScreen from "../components/Calendar";
 import DateCard from "../components/DateCard";
@@ -12,20 +12,24 @@ import Login from "../components/Login";
 import ConfirmCard from "../components/ConfirmCard";
 
 const BookNow = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   const [section, setSection] = useState("All Services");
   const [allServices, setAllServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [customer, setCustomer] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
+      const token = await getAccessTokenSilently();
       const services = await get_all_services();
+      const customer = await getOrCreate_customer(token);
+      setCustomer(customer.customer[0].key);
       setAllServices(services);
     }
     fetchData();
-  }, []);
+  }, [user, getAccessTokenSilently]);
 
   if (!isAuthenticated) {
     return <Login />;
@@ -103,8 +107,10 @@ const BookNow = () => {
             <ConfirmCard
               selectedService={selectedService}
               selectedDate={formatDate(selectedDate)}
+              originalDate={selectedDate}
               selectedTime={selectedTime}
               setSection={setSection}
+              customer={customer}
             />
           </div>
         )}
