@@ -14,40 +14,47 @@ module.exports = {
 
   // format date and time in eastern timezone
   formatDateTime: function (date) {
+   
     var d = new Date(date),
       month = "" + (d.getMonth() + 1),
       day = "" + d.getDate(),
       year = d.getFullYear(),
-      hour = d.getHours() + 4,
+      hour = d.getHours(),
       minute = d.getMinutes(),
-      dayOfWeekName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
-        d.getDay()
-      ];
-    monthName = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ][d.getMonth()];
+      dayOfWeekName = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ][d.getDay()],
+      monthName = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ][d.getMonth()];
 
     (hourFormatted = hour % 12 || 12),
       (minuteFormatted = minute < 10 ? "0" + minute : minute),
-      (morning = hour < 12 ? "am" : "pm");
+      (morning = hour < 12 ? "AM" : "PM");
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
 
     return {
       date: `${dayOfWeekName} ${monthName} ${day}, ${year}`,
-      time: [hourFormatted, minuteFormatted].join(":") + morning,
+      time: [hourFormatted, minuteFormatted].join(":") + ` ${morning}`,
     };
   },
 

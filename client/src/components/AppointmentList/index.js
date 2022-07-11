@@ -1,10 +1,13 @@
 import Loader from "../Loader";
 import AppCard from "./AppCard";
+import { useSelector } from "react-redux";
 
-function AppointmentList({ appointments }) {
+function AppointmentList() {
+  const appointments = useSelector((state) => state.appointments.appointments);
+  const loading = useSelector((state) => state.appointments.loading);
   return (
     <div>
-      {appointments === null ? (
+      {loading ? (
         <div className='flex justify-center border-t border-gray-600 bg-gray-700'>
           <Loader />
         </div>

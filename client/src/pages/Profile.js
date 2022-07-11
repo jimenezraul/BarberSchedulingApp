@@ -1,25 +1,30 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
 import Login from "../components/Login";
 import VerifyEmail from "../components/VerifyEmail";
+import { useDispatch } from "react-redux";
+import {
+  updateAppointments,
+  updateLoading,
+} from "../redux/Store/appointmentSlice";
 
 export default function Profile() {
-  const [appointments, setAppointments] = useState(null);
+  const dispatch = useDispatch();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-
   useEffect(() => {
     async function getCustomer() {
+      dispatch(updateLoading(true));
       const token = await getAccessTokenSilently();
       const appointments = await get_appointments(token);
-      console.log(appointments);
-      setAppointments(appointments);
+      dispatch(updateAppointments(appointments));
+      dispatch(updateLoading(false));
     }
     if (isAuthenticated) {
       getCustomer();
     }
-  }, [getAccessTokenSilently, isAuthenticated]);
+  }, [getAccessTokenSilently, isAuthenticated, dispatch]);
 
   if (!isAuthenticated) {
     return <Login />;
@@ -69,10 +74,10 @@ export default function Profile() {
             </div>
             <div className='flex flex-col justify-center'>
               <div className='px-5 flex justify-center w-full'>
-                <div className='overflow-hidden flex flex-col text-center border border-gray-600 justify-center w-full md:w-10/12 lg:w-8/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
+                <div className='overflow-hidden flex flex-col text-center border border-gray-600 justify-center w-full md:w-10/12 lg:w-6/12 xl:w-5/12 rounded-xl bg-gray-800 shadow-lg mb-10'>
                   <div className='flex flex-col text-gray-200 pt-5'>
                     <h1 className='font-bold text-xl pb-4'>Appointments</h1>
-                    <AppointmentList appointments={appointments} />
+                    <AppointmentList />
                   </div>
                 </div>
               </div>

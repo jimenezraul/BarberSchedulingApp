@@ -57,6 +57,7 @@ router.post("/appointments", jwtCheck, auth, async (req, res) => {
       start_time,
       end_time
     );
+
     return res.send(appointments);
   } catch (error) {
     return res.send(error);
@@ -90,6 +91,16 @@ router.post("/create_appointment", jwtCheck, auth, async (req, res) => {
       end_time,
       cost
     );
+    return res.send(appointment);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+router.post("/delete_appointment", jwtCheck, auth, async (req, res) => {
+  const { key } = req.query;
+  try {
+    const appointment = await setmore.delete_appointment(key);
     return res.send(appointment);
   } catch (error) {
     return res.send(error);

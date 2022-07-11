@@ -20,7 +20,7 @@ const Success = () => {
   }, [timer, navigate]);
 
   return (
-    <div clasName='flex-1'>
+    <div>
       <div className='container mx-auto mt-5'>
         <div className='flex flex-col w-full lg:w-8/12 mx-auto border bg-gray-700 border-gray-600 rounded-lg text-gray-50'>
           <div className='shadow relative font-bold text-1xl text-center p-5 bg-gray-800 rounded-t-lg'>
@@ -30,7 +30,7 @@ const Success = () => {
             <h1 className='text-lg'>Your appointment has been scheduled.</h1>
             <p className='text-sm mt-2'>
               You will be redirect to your Profile page{" "}
-              <span class='inline-flex items-center justify-center px-2 py-1 text-lg font-bold leading-none text-red-100 bg-red-600 rounded-full'>
+              <span className='inline-flex items-center justify-center px-2 py-1 text-lg font-bold leading-none text-red-100 bg-red-600 rounded-full'>
                 {timer}
               </span>{" "}
               seconds.

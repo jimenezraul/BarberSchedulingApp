@@ -321,6 +321,27 @@ class Setmore {
     }
     return await createAppointment(token);
   }
+
+  async delete_appointment(appointment_key) {
+    const token = await this.get_access_token();
+
+    async function deleteAppointment(token) {
+      try {
+        const link = `/api/v2/bookingapi/appointments/${appointment_key}`;
+        const response = await axios.delete(url + link, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await deleteAppointment(token);
+  }
 }
 
 module.exports = Setmore;

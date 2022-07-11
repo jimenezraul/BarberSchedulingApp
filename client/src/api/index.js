@@ -187,3 +187,25 @@ export const create_appointment = async ({
     return error;
   }
 };
+
+export const delete_appointment = async (appointment_key, accessToken) => {
+  try {
+    const res = await fetch(`/api/delete_appointment?key=${appointment_key}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const appointment = await res.json();
+
+    return appointment;
+  } catch (error) {
+    return error;
+  }
+}
