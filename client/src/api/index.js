@@ -48,7 +48,7 @@ export const get_categories = async () => {
   }
 };
 
-export const get_customer = async (accessToken) => {
+export const getOrCreate_customer = async (accessToken) => {
   try {
     const res = await fetch("/api/customer", {
       headers: {
@@ -136,7 +136,7 @@ export const get_availability = async (staff, service, date, accessToken) => {
     }
 
     let services = await res.json();
-    
+
     services = services.data.slots.map((slot) => {
       return {
         slot: slot,
@@ -145,6 +145,44 @@ export const get_availability = async (staff, service, date, accessToken) => {
     });
 
     return services;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const create_appointment = async (
+  staff_key,
+  service_key,
+  customer_key,
+  start_time,
+  end_time,
+  cost,
+  accessToken
+) => {
+  try {
+    const res = await fetch("/api/create_appointment", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        staff_key,
+        service_key,
+        customer_key,
+        start_time,
+        end_time,
+        cost,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const appointment = await res.json();
+
+    return appointment;
   } catch (error) {
     return error;
   }

@@ -28,7 +28,9 @@ const ConfirmCard = ({
             <div className='font-semibold'>{service_name}</div>
             <div className='font-semibold'>${cost}</div>
           </div>
-          <p className='text-xs border-b border-gray-500 pb-3'>{selectedService.description}</p>
+          <p className='text-xs border-b border-gray-500 pb-3'>
+            {selectedService.description}
+          </p>
         </div>
         <div className='px-5 flex flex-col justify-center w-full md:w-1/2 mx-auto'>
           <div className='font-bold'>{dayOfWeekName}</div>

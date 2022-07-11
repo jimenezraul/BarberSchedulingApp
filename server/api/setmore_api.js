@@ -64,7 +64,6 @@ router.post("/appointments", jwtCheck, auth, async (req, res) => {
 });
 
 router.get("/get_available_times", jwtCheck, auth, async (req, res) => {
-  
   const { staff, service, date } = req.query;
   try {
     const available_times = await setmore.get_availability(
@@ -72,8 +71,27 @@ router.get("/get_available_times", jwtCheck, auth, async (req, res) => {
       service,
       date
     );
-    
+
     return res.send(available_times);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+router.post("/create_appointment", jwtCheck, auth, async (req, res) => {
+  const { staff_key, service_key, customer_key, start_time, end_time, cost } =
+    req.body;
+  try {
+    const appointment = await setmore.create_appointment(
+      user,
+      staff_key,
+      service_key,
+      customer_key,
+      start_time,
+      end_time,
+      cost
+    );
+    return res.send(appointment);
   } catch (error) {
     return res.send(error);
   }

@@ -13,6 +13,7 @@ export default function Profile() {
     async function getCustomer() {
       const token = await getAccessTokenSilently();
       const appointments = await get_appointments(token);
+      console.log(appointments);
       setAppointments(appointments);
     }
     if (isAuthenticated) {

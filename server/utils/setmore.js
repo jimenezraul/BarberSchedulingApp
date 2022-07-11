@@ -1,10 +1,9 @@
 const axios = require("axios");
 const url = "https://developer.setmore.com";
 require("dotenv").config();
-const { formatDate, formatDateTime } = require("../utils/helpers");
+const { formatDate, formatDateTime, decodedJwt } = require("../utils/helpers");
 const fs = require("fs");
 const path = require("path");
-const { militaryToStandard } = require("../utils/helpers");
 
 class Setmore {
   constructor() {
@@ -12,11 +11,32 @@ class Setmore {
   }
 
   async get_access_token() {
+    // check if there is a token
     if (this.access_token) {
+      //check if token is expired
+      const tokenExpired = await this.check_token_expired();
+      if (tokenExpired) {
+        //get new token
+        const newToken = await this.get_new_access_token();
+        this.access_token = newToken;
+        return newToken;
+      }
       return this.access_token;
     }
+    // if token is not set, get new token
     const new_token = await this.get_new_access_token();
     return new_token;
+  }
+
+  async check_token_expired() {
+    const token = await this.access_token;
+    const decoded = await decodedJwt(token);
+    const exp = decoded.exp;
+    const now = new Date().getTime() / 1000;
+    if (exp < now) {
+      return true;
+    }
+    return false;
   }
 
   async get_new_access_token() {
@@ -38,23 +58,15 @@ class Setmore {
 
   async get_services() {
     const token = await this.get_access_token();
-
-    async function prices(token) {
+    async function services(token) {
       try {
         const endpoint = "/api/v2/bookingapi/services";
         const response = await axios.get(url + endpoint, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-
-        if (!response.data.response) {
-          const newToken = await this.get_new_access_token();
-          this.access_token = newToken;
-          return await get_prices(newToken);
-        }
-
         const data = response.data.data.services;
 
         return data;
@@ -62,7 +74,7 @@ class Setmore {
         return error;
       }
     }
-    return await prices(token);
+    return await services(token);
   }
 
   async get_categories() {
@@ -73,16 +85,10 @@ class Setmore {
         const endpoint = "/api/v1/bookingapi/services/categories";
         const response = await axios.get(url + endpoint, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-
-        if (!response.data.response) {
-          const newToken = await this.get_new_access_token();
-          this.access_token = newToken;
-          return await categories(newToken);
-        }
 
         const data = response.data.data;
         return data;
@@ -93,7 +99,38 @@ class Setmore {
     return await categories(token);
   }
 
+  async create_customer() {
+    const user = this.user;
+    const token = await this.get_access_token();
+    const { given_name, family_name, picture, email } = user;
+
+    async function createCustomer(token) {
+      const body = JSON.stringify({
+        first_name: `${given_name}`,
+        last_name: `${family_name}`,
+        email_id: `${email}`,
+        image_url: `${picture}`,
+      });
+      try {
+        const endpoint = "/api/v2/bookingapi/customer/create";
+        const response = await axios.post(url + endpoint, body, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = response.data.data;
+        return data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await createCustomer(token);
+  }
+
   async get_customer(user) {
+    this.user = user;
     const token = await this.get_access_token();
 
     async function customer(token) {
@@ -101,15 +138,14 @@ class Setmore {
         const endpoint = `/api/v2/bookingapi/customer?firstname=${user.givenName}&email=${user.email}`;
         const response = await axios.get(url + endpoint, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.data.response) {
-          const newToken = await this.get_new_access_token();
-          this.access_token = newToken;
-          return await customer(newToken);
+        //if customer does not exist, create customer
+        if (!response.data.data.customer) {
+          throw new Error("Customer does not exist");
         }
 
         const data = response.data.data;
@@ -118,7 +154,12 @@ class Setmore {
         return error;
       }
     }
-    return await customer(token);
+    const res = await customer(token);
+    if (res.message === "Customer does not exist") {
+      await this.create_customer();
+      return await customer(token);
+    }
+    return res;
   }
 
   async get_appointments(user, start_time, end_time) {
@@ -127,8 +168,8 @@ class Setmore {
     const services = await this.get_services();
     const categories = await this.get_categories();
     // Client
-    const client = await this.get_customer(user);
-    const client_key = client.customer[0].key;
+    let client = await this.get_customer(user);
+    let client_key = client.customer[0].key;
     // Formatted dates
     const start_time_formatted = formatDate(start_time);
     const end_time_formatted = formatDate(end_time);
@@ -138,16 +179,10 @@ class Setmore {
         const endpoint = `/api/v1/bookingapi/appointments?startDate=${start_time_formatted}&endDate=${end_time_formatted}&customerDetails=true`;
         const response = await axios.get(url + endpoint, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-
-        if (!response.data.response) {
-          const newToken = await this.get_new_access_token();
-          this.access_token = newToken;
-          return await appointments(newToken);
-        }
 
         let data = response.data.data;
 
@@ -237,23 +272,53 @@ class Setmore {
         });
         const response = await axios.post(url + link, body, {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.data.response) {
-          const newToken = await this.get_new_access_token();
-          this.access_token = newToken;
-          return await getAvailability(newToken);
-        }
-        
         return response.data;
       } catch (error) {
         return error;
       }
     }
     return await getAvailability(token);
+  }
+
+  async create_appointment(
+    staff_key,
+    service_key,
+    customer_key,
+    start_time,
+    end_time,
+    cost
+  ) {
+    const token = await this.get_access_token();
+
+    async function createAppointment(token) {
+      try {
+        const link = "/api/v2/bookingapi/appointment/create";
+        const body = JSON.stringify({
+          staff_key: `${staff_key}`,
+          service_key: `${service_key}`,
+          customer_key: `${customer_key}`,
+          start_time: `${start_time}`,
+          end_time: `${end_time}`,
+          cost: `${cost}`,
+        });
+        const response = await axios.post(url + link, body, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await createAppointment(token);
   }
 }
 
