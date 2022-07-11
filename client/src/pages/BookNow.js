@@ -40,10 +40,12 @@ const BookNow = () => {
       <div className='flex flex-col text-gray-50 mt-1 flex-1'>
         {/* All Services */}
         {section === "All Services" && (
-          <div className='flex flex-wrap'>
+          <div className='flex flex-wrap justify-center p-1'>
             {!allServices.length ? (
-              <div className='py-2 px-3 align-middle flex justify-center min-w-full mb-32'>
-                <Loader />
+              <div className='w-full md:w-4/12 p-1'>
+                <div className='flex justify-center rounded-lg border border-gray-600 mx-auto bg-gray-800'>
+                  <Loader />
+                </div>
               </div>
             ) : (
               allServices.map((service) => (

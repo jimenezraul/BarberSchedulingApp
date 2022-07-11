@@ -59,7 +59,7 @@ const TimeCard = ({
                     onClick={() => timeHandler(time)}
                     key={index}
                     className={`p-5 font-semibold ${
-                      !is_last && "border-b border-gray-500"
+                      !is_last && "border-b border-gray-600"
                     } hover:bg-gray-800 `}
                   >
                     {time.time}

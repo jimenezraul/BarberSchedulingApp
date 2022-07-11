@@ -9,6 +9,7 @@ import Prices from "./pages/Prices";
 import Profile from "./pages/Profile";
 import Gallery from "./pages/Gallery";
 import Success from "./pages/Success";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/prices' element={<Prices />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/success' element={<Success />} />
+          <Route path='*' element={<PageNotFound />} />
         </Routes>
         <Footer />
       </div>
