@@ -10,9 +10,20 @@ export const appointmentSlice = createSlice({
     updateAppointments: (state, action) => {
       state.appointments = action.payload;
     },
+    updateAppointment: (state, action) => {
+      const appointment = action.payload;
+      
+      const index = state.appointments.findIndex(
+        (app) => app.key === appointment.appointment.key
+      );
+      state.appointments[index] = {
+        ...state.appointments[index],
+        ...appointment,
+      };
+    },
     removeAppointment: (state, action) => {
       state.appointments = state.appointments.filter(
-        (appointment) => appointment.key !== action.payload
+        (appointment) => appointment.key !== action.payload.key
       );
     },
     updateLoading: (state, action) => {
@@ -21,7 +32,11 @@ export const appointmentSlice = createSlice({
   },
 });
 
-export const { updateAppointments, removeAppointment, updateLoading } =
-  appointmentSlice.actions;
+export const {
+  updateAppointments,
+  removeAppointment,
+  updateLoading,
+  updateAppointment,
+} = appointmentSlice.actions;
 
 export default appointmentSlice.reducer;

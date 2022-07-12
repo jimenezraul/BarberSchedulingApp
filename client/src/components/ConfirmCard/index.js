@@ -1,9 +1,12 @@
 import { formatDateToSetmore } from "../../utils/helpers";
 import { useAuth0 } from "@auth0/auth0-react";
-import { create_appointment } from "../../api";
+import { create_appointment, update_appointment } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../Loader";
+import Button from "@mui/material/Button";
+import { useDispatch } from "react-redux";
+import { updateAppointment } from "../../redux/Store/appointmentSlice";
 
 const ConfirmCard = ({
   selectedService,
@@ -12,11 +15,22 @@ const ConfirmCard = ({
   setSection,
   customer,
   originalDate,
+  isModal,
+  handleClose,
 }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
-  const { key, categoryName, service_name, cost, staff_keys } = selectedService;
+  const {
+    key,
+    categoryName,
+    service_name,
+    cost,
+    staff_keys,
+    appointment_key,
+    service_key,
+  } = selectedService;
   const [dayOfWeekName, monthName, dayOfMonth, year] = selectedDate;
   const { slot, time } = selectedTime;
 
@@ -33,19 +47,38 @@ const ConfirmCard = ({
       cost: cost,
       accessToken: token,
     };
-    setLoading(true);
-    const res = await create_appointment(data);
 
+    setLoading(true);
+
+    if (!isModal) {
+      const res = await create_appointment(data);
+
+      if (res.response) {
+        setLoading(false);
+        navigate("/success");
+      }
+      throw new Error("Something went wrong");
+    }
+
+    const res = await update_appointment({
+      ...data,
+      appointment_key: appointment_key,
+      service_key: service_key,
+    });
+  
     if (res.response) {
       setLoading(false);
-      navigate("/success");
+      dispatch(updateAppointment(res.data));
+      handleClose();
+      return;
     }
+    throw new Error("Something went wrong while updating");
   };
 
   return (
     <>
       {!loading ? (
-        <div className='flex flex-col w-full lg:w-8/12 mx-auto border bg-gray-700 border-gray-600 rounded-lg'>
+        <div className='flex flex-col w-full border bg-gray-700 border-gray-600 rounded-lg text-gray-50'>
           <div className='shadow relative font-bold text-1xl text-center p-5 bg-gray-800 rounded-t-lg'>
             Appointment
             <div
@@ -56,7 +89,7 @@ const ConfirmCard = ({
             </div>
           </div>
           <div className='flex flex-col'>
-            <div className='mx-auto  flex flex-col justify-center px-5 pt-5 w-full md:w-1/2 p-4'>
+            <div className='mx-auto  flex flex-col justify-center px-5 pt-5 w-full p-4'>
               <div className='font-semibold text-xl text-gray-100 border-b border-gray-500'>
                 {categoryName}
               </div>
@@ -68,38 +101,32 @@ const ConfirmCard = ({
                 {selectedService.description}
               </p>
             </div>
-            <div className='px-5 flex flex-col justify-center w-full md:w-1/2 mx-auto'>
+            <div className='px-5 flex flex-col justify-center w-full mx-auto'>
               <div className='font-bold'>{dayOfWeekName}</div>
               <div className='font-semibold mb-5'>
                 {monthName} {dayOfMonth}, {year} at {time}
               </div>
             </div>
-            <div className='flex flex-col justify-center text-center'>
-              <div className='px-5 pb-5 text-center font-bold'>
-                <h1
-                  onClick={() => confirmHandler()}
-                  className='cursor-pointer p-5 border-2 border-gray-200 
-                      rounded-lg xs:w-11/12 sm:w-10/12 md:w-8/12 lg:w-1/2 mx-auto
-                      hover:bg-gray-200 hover:text-gray-700'
-                >
+            <div className='flex flex-col justify-center w-full mx-auto'>
+              <div className='px-5 pb-5 text-end font-bold space-x-2'>
+                <Button onClick={() => confirmHandler()} variant='contained'>
                   Confirm
-                </h1>
-                <h1
-                  onClick={() => setSection("All Services")}
-                  className='mt-2 text-gray-800 hover:text-gray-100 border hover:border-gray-500 cursor-pointer p-5 bg-gray-300 hover:bg-gray-800
-                      rounded-lg xs:w-11/12 sm:w-10/12 md:w-8/12 lg:w-1/2 mx-auto '
+                </Button>
+                <Button
+                  onClick={() => setSection("Reset")}
+                  variant='contained'
+                  color='secondary'
                 >
                   Cancel
-                </h1>
+                </Button>
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className='flex flex-col w-full lg:w-8/12 mx-auto border bg-gray-700 border-gray-600 rounded-lg'>
+        <div className='flex flex-col w-full mx-auto border bg-gray-700 border-gray-600 rounded-lg text-gray-50'>
           <div className='shadow relative font-bold text-1xl text-center p-5 bg-gray-800 rounded-t-lg'>
             Loading ...
-            
           </div>
           <div className='flex justify-center'>
             <Loader />

@@ -202,6 +202,7 @@ class Setmore {
           const service = services.find((service) => {
             return service.key === appointment.service_key;
           });
+          
           return {
             ...appointment,
             date: formatDateTime(appointment.start_time),
@@ -225,7 +226,6 @@ class Setmore {
     end_time,
     cost
   ) {
-    
     const token = await this.get_access_token();
 
     async function createAppointment(token) {
@@ -245,7 +245,7 @@ class Setmore {
             "Content-Type": "application/json",
           },
         });
-      
+
         return response.data;
       } catch (error) {
         return error;
@@ -273,6 +273,39 @@ class Setmore {
       }
     }
     return await deleteAppointment(token);
+  }
+
+  async update_appointment(service) {
+    const token = await this.get_access_token();
+
+    async function updateAppointment(token) {
+      try {
+        const link = `/api/v2/bookingapi/appointments/${service.appointment_key}`;
+        const body = JSON.stringify({
+          staff_key: `${service.staff_key}`,
+          service_key: `${service.service_key}`,
+          customer_key: `${service.customer_key}`,
+          start_time: `${service.start_time}`,
+          end_time: `${service.end_time}`,
+          cost: `${service.cost}`,
+        });
+
+        const response = await axios.put(url + link, body, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        
+        const data = response.data;
+        data.data.date = formatDateTime(data.data.appointment.start_time);
+        
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await updateAppointment(token);
   }
 
   async get_all_services() {

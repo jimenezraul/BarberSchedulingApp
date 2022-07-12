@@ -5,8 +5,15 @@ import {
   removeAppointment,
   updateLoading,
 } from "../../redux/Store/appointmentSlice";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import RescheduleModal from "../Modal";
 
 const AppCard = ({ appointment }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const { categoryName } = appointment.category;
@@ -23,10 +30,6 @@ const AppCard = ({ appointment }) => {
     dispatch(updateLoading(false));
   };
 
-  const editAppointment = async () => {
-    console.log("Edit appointment");
-  };
-
   return (
     <div key={appointment.service.key} className='flex bg-gray-700'>
       <div className='w-full p-5 flex flex-col justify-between border-t border-gray-700'>
@@ -36,16 +39,6 @@ const AppCard = ({ appointment }) => {
               {categoryName}
             </h1>
           </div>
-          <div className='space-x-3'>
-            <i
-              onClick={() => editAppointment()}
-              className='text-2xl cursor-pointer rounded-xl hover:bg-gray-600 p-4 bi bi-pencil-square'
-            ></i>
-            <i
-              onClick={() => deleteAppointment()}
-              className='text-2xl cursor-pointer rounded-xl  hover:text-gray-200 hover:bg-red-900 p-4 bi bi-trash-fill'
-            ></i>
-          </div>
         </div>
         <div className='flex flex-col mb-3 text-start px-1'>
           <p>
@@ -54,7 +47,26 @@ const AppCard = ({ appointment }) => {
           <p>{date}</p>
           <p>at {time}</p>
         </div>
+        <div className='space-x-3 text-end'>
+          <Button onClick={handleOpen} variant='contained' color='primary'>
+            Reschedule
+          </Button>
+          <Button
+            onClick={() => deleteAppointment()}
+            variant='contained'
+            color='secondary'
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
+      {open && (
+        <RescheduleModal
+          open={open}
+          handleClose={handleClose}
+          appointment={appointment}
+        />
+      )}
     </div>
   );
 };

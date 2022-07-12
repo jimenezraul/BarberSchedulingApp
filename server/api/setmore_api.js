@@ -107,4 +107,14 @@ router.post("/delete_appointment", Auth, async (req, res) => {
   }
 });
 
+router.put("/update_appointment", Auth, async (req, res) => {
+  try {
+    const appointment = await setmore.update_appointment(req.body);
+
+    return res.send(appointment);
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
 module.exports = router;

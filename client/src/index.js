@@ -6,6 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import { red, blue } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500],
+    },
+    secondary: {
+      main: red[500],
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +31,9 @@ root.render(
       scope='openid profile email'
     >
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </Provider>
     </Auth0Provider>
   </React.StrictMode>

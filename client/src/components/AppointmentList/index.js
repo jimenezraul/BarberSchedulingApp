@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 function AppointmentList() {
   const appointments = useSelector((state) => state.appointments.appointments);
+
   const loading = useSelector((state) => state.appointments.loading);
   return (
     <div>

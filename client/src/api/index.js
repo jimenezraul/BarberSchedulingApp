@@ -197,7 +197,7 @@ export const delete_appointment = async (appointment_key, accessToken) => {
         "Content-Type": "application/json",
       },
     });
-    
+
     if (!res.ok) {
       throw new Error(res.statusText);
     }
@@ -208,4 +208,44 @@ export const delete_appointment = async (appointment_key, accessToken) => {
   } catch (error) {
     return error;
   }
-}
+};
+
+export const update_appointment = async ({
+  staff_key,
+  service_key,
+  customer_key,
+  start_time,
+  end_time,
+  cost,
+  accessToken,
+  appointment_key,
+}) => {
+  try {
+    const res = await fetch("/api/update_appointment", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        staff_key,
+        service_key,
+        customer_key,
+        start_time,
+        end_time,
+        cost,
+        appointment_key,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+
+    const appointment = await res.json();
+
+    return appointment;
+  } catch (error) {
+    return error;
+  }
+};

@@ -8,7 +8,7 @@ const CalendarScreen = ({ setSelectedDate, setSection }) => {
     setSection("Times");
   };
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col text-gray-50'>
       <div className='relative p-5 bg-gray-800 rounded-t-lg shadow'>
         <h1 className='font-bold text-1xl'>Select a Date</h1>
         <div className='font-bold absolute flex flex-col top-2 right-5'>
