@@ -3,7 +3,7 @@ const { expressjwt: expressJwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 
 module.exports = {
-  jwtCheck: expressJwt({
+  Auth: expressJwt({
     secret: jwks.expressJwtSecret({
       cache: true,
       rateLimit: true,

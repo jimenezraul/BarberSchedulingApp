@@ -217,6 +217,64 @@ class Setmore {
     return await appointments(token);
   }
 
+  async create_appointment(
+    staff_key,
+    service_key,
+    customer_key,
+    start_time,
+    end_time,
+    cost
+  ) {
+    
+    const token = await this.get_access_token();
+
+    async function createAppointment(token) {
+      try {
+        const link = "/api/v2/bookingapi/appointment/create";
+        const body = JSON.stringify({
+          staff_key: `${staff_key}`,
+          service_key: `${service_key}`,
+          customer_key: `${customer_key}`,
+          start_time: `${start_time}`,
+          end_time: `${end_time}`,
+          cost: `${cost}`,
+        });
+        const response = await axios.post(url + link, body, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await createAppointment(token);
+  }
+
+  async delete_appointment(appointment_key) {
+    const token = await this.get_access_token();
+
+    async function deleteAppointment(token) {
+      try {
+        const link = `/api/v2/bookingapi/appointments/${appointment_key}`;
+        const response = await axios.delete(url + link, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+    return await deleteAppointment(token);
+  }
+
   async get_all_services() {
     const categories = await this.get_categories();
     const services = await this.get_services();
@@ -283,64 +341,6 @@ class Setmore {
       }
     }
     return await getAvailability(token);
-  }
-
-  async create_appointment(
-    staff_key,
-    service_key,
-    customer_key,
-    start_time,
-    end_time,
-    cost
-  ) {
-    
-    const token = await this.get_access_token();
-
-    async function createAppointment(token) {
-      try {
-        const link = "/api/v2/bookingapi/appointment/create";
-        const body = JSON.stringify({
-          staff_key: `${staff_key}`,
-          service_key: `${service_key}`,
-          customer_key: `${customer_key}`,
-          start_time: `${start_time}`,
-          end_time: `${end_time}`,
-          cost: `${cost}`,
-        });
-        const response = await axios.post(url + link, body, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      
-        return response.data;
-      } catch (error) {
-        return error;
-      }
-    }
-    return await createAppointment(token);
-  }
-
-  async delete_appointment(appointment_key) {
-    const token = await this.get_access_token();
-
-    async function deleteAppointment(token) {
-      try {
-        const link = `/api/v2/bookingapi/appointments/${appointment_key}`;
-        const response = await axios.delete(url + link, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        return response.data;
-      } catch (error) {
-        return error;
-      }
-    }
-    return await deleteAppointment(token);
   }
 }
 

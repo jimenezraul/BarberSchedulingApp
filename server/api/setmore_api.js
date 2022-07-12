@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Setmore = require("../utils/setmore");
 const auth = require("../utils/auth");
-const { jwtCheck } = require("../utils/jwks");
+const { Auth } = require("../utils/Authjwt");
 
 const setmore = new Setmore();
 
@@ -10,7 +10,7 @@ router.get("/gallery", async (req, res) => {
   res.json(gallery);
 });
 
-router.get("/services", jwtCheck, auth, async (req, res) => {
+router.get("/services", Auth, async (req, res) => {
   try {
     const services = await setmore.get_services();
     return res.send(services);
@@ -37,7 +37,7 @@ router.get("/categories", async (req, res) => {
   }
 });
 
-router.get("/customer", jwtCheck, auth, async (req, res) => {
+router.get("/customer", Auth, auth, async (req, res) => {
   const user = req.user;
   try {
     const customer = await setmore.get_customer(user);
@@ -47,7 +47,7 @@ router.get("/customer", jwtCheck, auth, async (req, res) => {
   }
 });
 
-router.post("/appointments", jwtCheck, auth, async (req, res) => {
+router.post("/appointments", Auth, auth, async (req, res) => {
   const user = req.user;
   const start_time = req.body.startDate;
   const end_time = req.body.endDate;
@@ -64,7 +64,7 @@ router.post("/appointments", jwtCheck, auth, async (req, res) => {
   }
 });
 
-router.get("/get_available_times", jwtCheck, auth, async (req, res) => {
+router.get("/get_available_times", Auth, async (req, res) => {
   const { staff, service, date } = req.query;
   try {
     const available_times = await setmore.get_availability(
@@ -79,7 +79,7 @@ router.get("/get_available_times", jwtCheck, auth, async (req, res) => {
   }
 });
 
-router.post("/create_appointment", jwtCheck, auth, async (req, res) => {
+router.post("/create_appointment", Auth, async (req, res) => {
   const { staff_key, service_key, customer_key, start_time, end_time, cost } =
     req.body;
   try {
@@ -97,7 +97,7 @@ router.post("/create_appointment", jwtCheck, auth, async (req, res) => {
   }
 });
 
-router.post("/delete_appointment", jwtCheck, auth, async (req, res) => {
+router.post("/delete_appointment", Auth, async (req, res) => {
   const { key } = req.query;
   try {
     const appointment = await setmore.delete_appointment(key);
