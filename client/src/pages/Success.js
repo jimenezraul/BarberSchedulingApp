@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Badge, IconButton } from "@mui/material";
+
 const Success = () => {
   const navigate = useNavigate();
 
@@ -28,11 +30,15 @@ const Success = () => {
           </div>
           <div className='flex flex-col text-center p-14'>
             <h1 className='text-lg'>Your appointment has been scheduled.</h1>
-            <p className='text-sm mt-2'>
+            <p className='text-xs mt-2'>
               You will be redirect to your Profile page{" "}
-              <span className='inline-flex items-center justify-center px-2 py-1 text-lg font-bold leading-none text-red-100 bg-red-600 rounded-full'>
-                {timer}
-              </span>{" "}
+              <IconButton>
+              <Badge
+                className='block'
+                color='secondary'
+                badgeContent={timer}
+                ></Badge>
+                </IconButton>
               seconds.
             </p>
           </div>

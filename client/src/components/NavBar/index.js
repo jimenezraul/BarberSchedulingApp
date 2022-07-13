@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./styles.css";
+import { useOutside } from "./hook";
 
 const menu_navigation = [
   { name: "Home", href: "/", current: false },
@@ -16,12 +17,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function NavBar() {
-  const navigate = useNavigate();
+export default function NavBar() {const navigate = useNavigate();
   const [navigation, setNavigation] = useState(menu_navigation);
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout, loginWithPopup, user } = useAuth0();
   const currentpath = window.location.pathname;
+
+  const wrapperRef = useRef(null);
+  useOutside(wrapperRef, setIsOpen);
+  
   const pageClickHandler = (url) => {
     // on click set current to true
     setNavigation(
@@ -143,7 +147,7 @@ export default function NavBar() {
                               </button>
                             )}
                           </Menu.Item>
-                          
+
                           <Menu.Item>
                             {({ active }) => (
                               <button
@@ -182,7 +186,12 @@ export default function NavBar() {
             </div>
           </div>
 
-          <div className={`z-10 absolute w-full ease-in-out duration-300 bg-gray-800 rounded-b-xl border-b border-gray-600 ${isOpen ? "translate-y-0" : "-translate-y-52"}`}>
+          <div
+            ref={wrapperRef}
+            className={`z-10 absolute w-full ease-in-out duration-300 bg-gray-800 rounded-b-xl border-b border-gray-600 ${
+              isOpen ? "translate-y-0" : "-translate-y-52"
+            }`}
+          >
             <div className='px-2 pt-2 pb-3 space-y-1'>
               {navigation.map((item) => (
                 <Link
