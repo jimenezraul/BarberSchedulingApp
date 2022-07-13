@@ -56,12 +56,28 @@ const ConfirmCard = ({
     if (!isModal) {
       const res = await create_appointment(data);
 
-      if (res.response) {
-        setLoading(false);
-        navigate("/success");
+      if (!res.response) {
+        dispatch(updateAppointment(res.data));
+        dispatch(
+          updateAlert({
+            type: "error",
+            message: "An error occurred while creating your appointment",
+            show: true,
+          })
+        );
+        navigate("/profile");
         return;
       }
-      throw new Error("Something went wrong");
+      setLoading(false);
+      dispatch(
+        updateAlert({
+          type: "success",
+          message: "Appointment created successfully",
+          show: true,
+        })
+      );
+      navigate("/profile");
+      return;
     }
 
     const res = await update_appointment({
@@ -69,6 +85,32 @@ const ConfirmCard = ({
       appointment_key: appointment_key,
       service_key: service_key,
     });
+
+    // If response is false and error 409 then it means the appointment is already booked else it means it's an error
+    if (!res.response) {
+      if (res.status === 409) {
+        setLoading(false);
+        handleClose();
+        dispatch(
+          updateAlert({
+            type: "error",
+            message: "Someone has already booked this time",
+            show: true,
+          })
+        );
+        return;
+      }
+      setLoading(false);
+      handleClose();
+      dispatch(
+        updateAlert({
+          type: "error",
+          message: "Something went wrong",
+          show: true,
+        })
+      );
+      return;
+    }
 
     if (res.response) {
       setLoading(false);
@@ -83,28 +125,6 @@ const ConfirmCard = ({
       );
       return;
     }
-    if (res.status === 409) {
-      setLoading(false);
-      handleClose();
-      dispatch(
-        updateAlert({
-          type: "error",
-          message: "Someone has already booked this time",
-          show: true,
-        })
-      );
-      return;
-    }
-    setLoading(false);
-    handleClose();
-    dispatch(
-      updateAlert({
-        type: "error",
-        message: "Something went wrong",
-        show: true,
-      })
-    );
-    return;
   };
 
   return (

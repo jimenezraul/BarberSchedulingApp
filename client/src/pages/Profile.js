@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
 import Login from "../components/Login";
-import VerifyEmail from "../components/VerifyEmail";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateAppointments,
@@ -39,10 +38,6 @@ export default function Profile() {
 
   if (!isAuthenticated) {
     return <Login />;
-  }
-
-  if (!user.email_verified) {
-    return <VerifyEmail user={user} />;
   }
 
   return (
