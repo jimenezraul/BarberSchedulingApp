@@ -83,7 +83,28 @@ const ConfirmCard = ({
       );
       return;
     }
-    throw new Error("Something went wrong while updating");
+    if (res.status === 409) {
+      setLoading(false);
+      handleClose();
+      dispatch(
+        updateAlert({
+          type: "error",
+          message: "Someone has already booked this time",
+          show: true,
+        })
+      );
+      return;
+    }
+    setLoading(false);
+    handleClose();
+    dispatch(
+      updateAlert({
+        type: "error",
+        message: "Something went wrong",
+        show: true,
+      })
+    );
+    return;
   };
 
   return (

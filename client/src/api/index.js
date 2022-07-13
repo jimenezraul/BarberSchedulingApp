@@ -237,13 +237,8 @@ export const update_appointment = async ({
         appointment_key,
       }),
     });
-
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-
+    
     const appointment = await res.json();
-
     return appointment;
   } catch (error) {
     return error;

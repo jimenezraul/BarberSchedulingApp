@@ -33,7 +33,7 @@ export default function Profile() {
     if (alert.show) {
       setTimeout(() => {
         dispatch(updateAlert({ show: false }));
-      }, 3000);
+      }, 4000);
     }
   }, [alert, dispatch]);
 
@@ -59,7 +59,7 @@ export default function Profile() {
                 >
                   <Alert severity={alert.type ? alert.type : "success"}>
                     <AlertTitle className='capitalize'>{alert.type}</AlertTitle>
-                    {alert.message}
+                    <strong className='capitalize'>{alert.message}</strong>
                   </Alert>
                 </Slide>
                 <div className='mt-10 mx-auto flex flex-col text-center  border border-gray-600 w-full md:w-6/12 lg:w-4/12 rounded-xl bg-gray-800 shadow-lg'>
