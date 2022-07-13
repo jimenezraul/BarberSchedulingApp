@@ -4,17 +4,39 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import { red, blue } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[500],
+    },
+    secondary: {
+      main: red[500],
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Auth0Provider
-    domain='YOUR_DOMAIN'
-    clientId='YOUR_CLIENT_ID'
-    redirectUri={window.location.origin}
-  >
-    <App />
-  </Auth0Provider>,
-  document.getElementById("app")
+  <React.StrictMode>
+    <Auth0Provider
+      domain='raulthebarber.us.auth0.com'
+      clientId='FA0M1mNjjr5t0Ocfz0mVqJ6Fkxp96E5a'
+      redirectUri={window.location.origin}
+      audience='https://raulthebarber.net/'
+      scope='openid profile email'
+    >
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </Provider>
+    </Auth0Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
