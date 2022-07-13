@@ -39,7 +39,7 @@ const TimeCard = ({
   };
 
   return (
-    <div className='rounded-lg border border-gray-600 overflow-hidden mb-2 text-gray-50'>
+    <div className='rounded-lg border border-gray-600 overflow-hidden text-gray-50'>
       <div className='shadow relative font-bold text-1xl p-5 bg-gray-800 rounded-t-lg'>
         Select a Time
       </div>

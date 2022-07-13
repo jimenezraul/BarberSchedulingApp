@@ -8,7 +8,6 @@ import BookNow from "./pages/BookNow";
 import Prices from "./pages/Prices";
 import Profile from "./pages/Profile";
 import Gallery from "./pages/Gallery";
-import Success from "./pages/Success";
 import PageNotFound from "./pages/PageNotFound";
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
           <Route path='/gallery' element={<Gallery />} />
           <Route path='/prices' element={<Prices />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/success' element={<Success />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
         <Footer />

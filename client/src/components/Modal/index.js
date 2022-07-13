@@ -34,7 +34,7 @@ const RescheduleModal = ({ open, handleClose, appointment }) => {
       <div className='flex flex-col flex-1 justify-center'>
         <div className='flex justify-center content-center p-2'>
           {section === "calendar" && (
-            <div className=' bg-gray-700 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12'>
+            <div className='w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12'>
               <CalendarScreen
                 setSelectedDate={setSelectedDate}
                 setSection={setSection}
@@ -51,7 +51,7 @@ const RescheduleModal = ({ open, handleClose, appointment }) => {
             </div>
           )}
           {section === "Times" && (
-            <div className='bg-gray-700 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12'>
+            <div className='w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12 my-5'>
               <TimeCard
                 selectedService={appointment.service}
                 selectedDate={selectedDate}
@@ -77,7 +77,7 @@ const RescheduleModal = ({ open, handleClose, appointment }) => {
             </div>
           )}
           {section === "Confirm" && (
-            <div className='bg-gray-700 rounded-lg w-full'>
+            <div className='bg-gray-700 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12'>
               <ConfirmCard
                 selectedService={service}
                 selectedDate={formatDate(selectedDate)}

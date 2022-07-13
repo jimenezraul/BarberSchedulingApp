@@ -5,6 +5,11 @@ export const appointmentSlice = createSlice({
   initialState: {
     appointments: [],
     loading: false,
+    alert: {
+      type: "",
+      message: "",
+      show: false,
+    }
   },
   reducers: {
     updateAppointments: (state, action) => {
@@ -32,6 +37,9 @@ export const appointmentSlice = createSlice({
     updateLoading: (state, action) => {
       state.loading = action.payload;
     },
+    updateAlert: (state, action) => {
+      state.alert = action.payload;
+    }
   },
 });
 
@@ -40,6 +48,7 @@ export const {
   removeAppointment,
   updateLoading,
   updateAppointment,
+  updateAlert,
 } = appointmentSlice.actions;
 
 export default appointmentSlice.reducer;

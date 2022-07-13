@@ -6,7 +6,10 @@ import { useState } from "react";
 import Loader from "../Loader";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { updateAppointment } from "../../redux/Store/appointmentSlice";
+import {
+  updateAppointment,
+  updateAlert,
+} from "../../redux/Store/appointmentSlice";
 
 const ConfirmCard = ({
   selectedService,
@@ -52,13 +55,29 @@ const ConfirmCard = ({
 
     if (!isModal) {
       const res = await create_appointment(data);
-  
-      if (res.response) {
-        setLoading(false);
-        navigate("/success");
+
+      if (!res.response) {
+        dispatch(updateAppointment(res.data));
+        dispatch(
+          updateAlert({
+            type: "error",
+            message: "An error occurred while creating your appointment",
+            show: true,
+          })
+        );
+        navigate("/profile");
         return;
       }
-      throw new Error("Something went wrong");
+      setLoading(false);
+      dispatch(
+        updateAlert({
+          type: "success",
+          message: "Appointment created successfully",
+          show: true,
+        })
+      );
+      navigate("/profile");
+      return;
     }
 
     const res = await update_appointment({
@@ -67,13 +86,45 @@ const ConfirmCard = ({
       service_key: service_key,
     });
 
+    // If response is false and error 409 then it means the appointment is already booked else it means it's an error
+    if (!res.response) {
+      if (res.status === 409) {
+        setLoading(false);
+        handleClose();
+        dispatch(
+          updateAlert({
+            type: "error",
+            message: "Someone has already booked this time",
+            show: true,
+          })
+        );
+        return;
+      }
+      setLoading(false);
+      handleClose();
+      dispatch(
+        updateAlert({
+          type: "error",
+          message: "Something went wrong",
+          show: true,
+        })
+      );
+      return;
+    }
+
     if (res.response) {
       setLoading(false);
       dispatch(updateAppointment(res.data));
       handleClose();
+      dispatch(
+        updateAlert({
+          type: "success",
+          message: "Appointment was updated successfully",
+          show: true,
+        })
+      );
       return;
     }
-    throw new Error("Something went wrong while updating");
   };
 
   return (
@@ -84,9 +135,15 @@ const ConfirmCard = ({
             Appointment
             <div
               onClick={() => setSection("Times")}
-              className='shadow text-gray-200 cursor-pointer absolute  bg-gray-600 hover:bg-gray-700 top-3 left-5 px-5 py-2 rounded-lg'
+              className='cursor-pointer absolute top-3 left-5'
             >
-              Back
+              <Button
+                variant='contained'
+                color='blueGrey'
+                className='hover:bg-gray-700'
+              >
+                back
+              </Button>
             </div>
           </div>
           <div className='flex flex-col'>

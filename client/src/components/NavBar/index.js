@@ -17,7 +17,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function NavBar() {const navigate = useNavigate();
+export default function NavBar() {
+  const navigate = useNavigate();
   const [navigation, setNavigation] = useState(menu_navigation);
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, logout, loginWithPopup, user } = useAuth0();
@@ -25,7 +26,7 @@ export default function NavBar() {const navigate = useNavigate();
 
   const wrapperRef = useRef(null);
   useOutside(wrapperRef, setIsOpen);
-  
+
   const pageClickHandler = (url) => {
     // on click set current to true
     setNavigation(
@@ -59,20 +60,23 @@ export default function NavBar() {const navigate = useNavigate();
   };
 
   return (
-    <Disclosure as='nav'>
-      {({ open }) => (
+    <Disclosure as='nav' ref={wrapperRef}>
+      {() => (
         <>
-          <div className='bg-gray-800 relative max-w-7xl mx-auto px-2 lg:px-8 z-50'>
+          <div className='bg-gray-800 relative px-2 lg:px-8 z-50'>
             <div className='relative flex items-center justify-between h-16'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className='inline-flex items-center justify-center border border-gray-600 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-all'
+                  className='relative inline-flex items-center justify-center border border-gray-600 p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-all'
                 >
                   <span className='sr-only'>Open main menu</span>
-                  {open ? (
-                    <XIcon className='block h-6 w-6' aria-hidden='true' />
+                  {isOpen ? (
+                    <XIcon
+                      className='block h-6 w-6 menu-button'
+                      aria-hidden='true'
+                    />
                   ) : (
                     <MenuIcon className='block h-6 w-6' aria-hidden='true' />
                   )}
@@ -187,7 +191,6 @@ export default function NavBar() {const navigate = useNavigate();
           </div>
 
           <div
-            ref={wrapperRef}
             className={`z-10 absolute w-full ease-in-out duration-300 bg-gray-800 rounded-b-xl border-b border-gray-600 ${
               isOpen ? "translate-y-0" : "-translate-y-52"
             }`}
