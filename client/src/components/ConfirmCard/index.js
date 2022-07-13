@@ -6,7 +6,10 @@ import { useState } from "react";
 import Loader from "../Loader";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { updateAppointment } from "../../redux/Store/appointmentSlice";
+import {
+  updateAppointment,
+  updateAlert,
+} from "../../redux/Store/appointmentSlice";
 
 const ConfirmCard = ({
   selectedService,
@@ -52,7 +55,7 @@ const ConfirmCard = ({
 
     if (!isModal) {
       const res = await create_appointment(data);
-  
+
       if (res.response) {
         setLoading(false);
         navigate("/success");
@@ -71,6 +74,13 @@ const ConfirmCard = ({
       setLoading(false);
       dispatch(updateAppointment(res.data));
       handleClose();
+      dispatch(
+        updateAlert({
+          type: "success",
+          message: "Appointment was updated successfully",
+          show: true,
+        })
+      );
       return;
     }
     throw new Error("Something went wrong while updating");
@@ -84,9 +94,15 @@ const ConfirmCard = ({
             Appointment
             <div
               onClick={() => setSection("Times")}
-              className='shadow text-gray-200 cursor-pointer absolute  bg-gray-600 hover:bg-gray-700 top-3 left-5 px-5 py-2 rounded-lg'
+              className='cursor-pointer absolute top-3 left-5'
             >
-              Back
+              <Button
+                variant='contained'
+                color='blueGrey'
+                className='hover:bg-gray-700'
+              >
+                back
+              </Button>
             </div>
           </div>
           <div className='flex flex-col'>

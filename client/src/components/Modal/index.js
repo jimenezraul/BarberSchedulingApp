@@ -77,7 +77,7 @@ const RescheduleModal = ({ open, handleClose, appointment }) => {
             </div>
           )}
           {section === "Confirm" && (
-            <div className='bg-gray-700 rounded-lg w-full'>
+            <div className='bg-gray-700 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12'>
               <ConfirmCard
                 selectedService={service}
                 selectedDate={formatDate(selectedDate)}

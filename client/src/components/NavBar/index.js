@@ -25,7 +25,7 @@ export default function NavBar() {const navigate = useNavigate();
 
   const wrapperRef = useRef(null);
   useOutside(wrapperRef, setIsOpen);
-  
+
   const pageClickHandler = (url) => {
     // on click set current to true
     setNavigation(
@@ -62,7 +62,7 @@ export default function NavBar() {const navigate = useNavigate();
     <Disclosure as='nav'>
       {({ open }) => (
         <>
-          <div className='bg-gray-800 relative max-w-7xl mx-auto px-2 lg:px-8 z-50'>
+          <div className='bg-gray-800 relative px-2 lg:px-8 z-50'>
             <div className='relative flex items-center justify-between h-16'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}

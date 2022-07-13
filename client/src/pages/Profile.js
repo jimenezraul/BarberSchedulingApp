@@ -4,13 +4,16 @@ import { get_appointments } from "../api";
 import AppointmentList from "../components/AppointmentList";
 import Login from "../components/Login";
 import VerifyEmail from "../components/VerifyEmail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateAppointments,
   updateLoading,
+  updateAlert,
 } from "../redux/Store/appointmentSlice";
+import { Alert, AlertTitle, Slide } from "@mui/material";
 
 export default function Profile() {
+  const alert = useSelector((state) => state.appointments.alert);
   const dispatch = useDispatch();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   useEffect(() => {
@@ -26,6 +29,14 @@ export default function Profile() {
     }
   }, [getAccessTokenSilently, isAuthenticated, dispatch]);
 
+  useEffect(() => {
+    if (alert.show) {
+      setTimeout(() => {
+        dispatch(updateAlert({ show: false }));
+      }, 3000);
+    }
+  }, [alert, dispatch]);
+
   if (!isAuthenticated) {
     return <Login />;
   }
@@ -33,14 +44,24 @@ export default function Profile() {
   if (!user.email_verified) {
     return <VerifyEmail user={user} />;
   }
-  
+
   return (
     <div className='flex-1'>
       <div className='container mx-auto mt-5'>
         <div className='w-full'>
           <div className='flex flex-col'>
             <div className='flex flex-col justify-center'>
-              <div className='p-5 flex justify-center'>
+              <div className='relative p-5 flex justify-center overflow-hidden'>
+                <Slide
+                  direction='left'
+                  in={alert.show}
+                  className='absolute top-0 right-5'
+                >
+                  <Alert severity={alert.type ? alert.type : "success"}>
+                    <AlertTitle className='capitalize'>{alert.type}</AlertTitle>
+                    {alert.message}
+                  </Alert>
+                </Slide>
                 <div className='mt-10 mx-auto flex flex-col text-center  border border-gray-600 w-full md:w-6/12 lg:w-4/12 rounded-xl bg-gray-800 shadow-lg'>
                   <div className='mx-auto flex justify-center border-gray-600 w-48 md:w-80'>
                     {user.provider === "email" ? (

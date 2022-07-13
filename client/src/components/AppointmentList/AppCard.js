@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import {
   removeAppointment,
   updateLoading,
+  updateAlert,
 } from "../../redux/Store/appointmentSlice";
 import { Button } from "@mui/material";
 import { useState } from "react";
@@ -26,6 +27,13 @@ const AppCard = ({ appointment }) => {
     const res = await delete_appointment(appointment.key, token);
     if (res.response) {
       dispatch(removeAppointment(appointment.key));
+      dispatch(
+        updateAlert({
+          type: "success",
+          message: "Appointment was deleted successfully",
+          show: true,
+        })
+      );
     }
     dispatch(updateLoading(false));
   };

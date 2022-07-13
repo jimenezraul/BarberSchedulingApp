@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider } from "@auth0/auth0-react";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import { red, blue } from "@mui/material/colors";
+import { red, blue, blueGrey } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -16,6 +16,9 @@ const theme = createTheme({
     },
     secondary: {
       main: red[500],
+    },
+    blueGrey: {
+      main: blueGrey[600],
     },
   },
 });
