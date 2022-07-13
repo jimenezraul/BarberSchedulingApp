@@ -52,10 +52,11 @@ const ConfirmCard = ({
 
     if (!isModal) {
       const res = await create_appointment(data);
-
+  
       if (res.response) {
         setLoading(false);
         navigate("/success");
+        return;
       }
       throw new Error("Something went wrong");
     }
@@ -65,7 +66,7 @@ const ConfirmCard = ({
       appointment_key: appointment_key,
       service_key: service_key,
     });
-  
+
     if (res.response) {
       setLoading(false);
       dispatch(updateAppointment(res.data));

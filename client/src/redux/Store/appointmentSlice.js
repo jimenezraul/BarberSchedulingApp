@@ -12,7 +12,7 @@ export const appointmentSlice = createSlice({
     },
     updateAppointment: (state, action) => {
       const appointment = action.payload;
-      
+
       const index = state.appointments.findIndex(
         (app) => app.key === appointment.appointment.key
       );
@@ -22,9 +22,12 @@ export const appointmentSlice = createSlice({
       };
     },
     removeAppointment: (state, action) => {
-      state.appointments = state.appointments.filter(
-        (appointment) => appointment.key !== action.payload.key
+      const appointment = action.payload;
+
+      const index = state.appointments.findIndex(
+        (app) => app.key === appointment.key
       );
+      state.appointments.splice(index, 1);
     },
     updateLoading: (state, action) => {
       state.loading = action.payload;

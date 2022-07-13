@@ -33,7 +33,7 @@ export default function Profile() {
   if (!user.email_verified) {
     return <VerifyEmail user={user} />;
   }
-
+  
   return (
     <div className='flex-1'>
       <div className='container mx-auto mt-5'>
