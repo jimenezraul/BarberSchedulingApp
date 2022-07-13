@@ -44,7 +44,7 @@ const BookNow = () => {
       <div className='flex flex-col text-gray-50 mt-1 flex-1'>
         {/* All Services */}
         {section === "All Services" && (
-          <div className='flex flex-wrap justify-center p-1'>
+          <div className='flex flex-wrap justify-center p-3'>
             {!allServices.length ? (
               <div className='w-full md:w-4/12 p-1'>
                 <div className='flex justify-center rounded-lg border border-gray-600 mx-auto bg-gray-800'>
@@ -66,7 +66,7 @@ const BookNow = () => {
         {/* End Services */}
         {/* Dates */}
         {section === "Dates" && (
-          <div className='flex flex-wrap'>
+          <div className='flex flex-wrap p-3'>
             <div className='w-full md:w-4/12 p-1'>
               <SideCard
                 setSection={setSection}
@@ -87,7 +87,7 @@ const BookNow = () => {
         {/* End Dates */}
         {/* Times */}
         {section === "Times" && (
-          <div className='flex flex-wrap'>
+          <div className='flex flex-wrap p-3'>
             <div className='w-full md:w-4/12 p-1 space-y-2'>
               <SideCard setSection={setSection} service={selectedService} />
               <DateCard
@@ -108,7 +108,7 @@ const BookNow = () => {
         {/* End Times */}
         {/* Confirm */}
         {section === "Confirm" && (
-          <div className='p-1 flex flex-wrap flex-1 justify-center content-center'>
+          <div className='flex flex-wrap flex-1 justify-center content-center p-3'>
             <div className="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 ">
             <ConfirmCard
               selectedService={selectedService}

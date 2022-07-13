@@ -3,6 +3,7 @@ import { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./styles.css";
 
 const menu_navigation = [
   { name: "Home", href: "/", current: false },
@@ -54,10 +55,10 @@ export default function NavBar() {
   };
 
   return (
-    <Disclosure as='nav' className='bg-gray-800 z-50'>
+    <Disclosure as='nav'>
       {({ open }) => (
         <>
-          <div className='max-w-7xl mx-auto px-2 lg:px-8'>
+          <div className='bg-gray-800 relative max-w-7xl mx-auto px-2 lg:px-8 z-50'>
             <div className='relative flex items-center justify-between h-16'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}
@@ -123,10 +124,10 @@ export default function NavBar() {
                     leaveFrom='transform opacity-100 scale-100'
                     leaveTo='transform opacity-0 scale-95'
                   >
-                    <Menu.Items className='origin-top-right absolute right-0 mt-2 w-52 rounded-md shadow-lg shadow-gray-800 py-1 border border-gray-600 bg-gray-700 focus:outline-none'>
+                    <Menu.Items className='origin-top-right absolute right-0 mt-2 w-52 rounded-md shadow-lg shadow-gray-800 border border-gray-600 bg-gray-700 focus:outline-none overflow-hidden'>
                       {isAuthenticated ? (
                         <>
-                          <p className='text-center text-sm font-medium text-gray-100 border-b border-gray-600 pb-2'>
+                          <p className='bg-gray-800 text-center text-sm font-medium text-gray-100 border-b border-gray-600 py-2'>
                             {user?.given_name}
                           </p>
                           <Menu.Item>
@@ -181,7 +182,7 @@ export default function NavBar() {
             </div>
           </div>
 
-          <div className={`${!isOpen && "hidden"}`}>
+          <div className={`z-10 absolute w-full ease-in-out duration-300 bg-gray-800 rounded-b-xl border-b border-gray-600 ${isOpen ? "translate-y-0" : "-translate-y-52"}`}>
             <div className='px-2 pt-2 pb-3 space-y-1'>
               {navigation.map((item) => (
                 <Link
