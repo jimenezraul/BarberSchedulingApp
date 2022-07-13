@@ -60,10 +60,10 @@ export default function NavBar() {
   };
 
   return (
-    <Disclosure as='nav'>
-      {({ open }) => (
+    <Disclosure as='nav' ref={wrapperRef}>
+      {() => (
         <>
-          <div ref={wrapperRef} className='bg-gray-800 relative px-2 lg:px-8 z-50'>
+          <div className='bg-gray-800 relative px-2 lg:px-8 z-50'>
             <div className='relative flex items-center justify-between h-16'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}
