@@ -28,8 +28,10 @@ const BookNow = () => {
       setCustomer(customer.customer[0].key);
       setAllServices(services);
     }
-    fetchData();
-  }, [user, getAccessTokenSilently]);
+    if (isAuthenticated) {
+      fetchData();
+    }
+  }, [user, getAccessTokenSilently, isAuthenticated]);
 
   if (!isAuthenticated) {
     return <Login />;
@@ -109,16 +111,16 @@ const BookNow = () => {
         {/* Confirm */}
         {section === "Confirm" && (
           <div className='flex flex-wrap flex-1 justify-center content-center p-3'>
-            <div className="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 ">
-            <ConfirmCard
-              selectedService={selectedService}
-              selectedDate={formatDate(selectedDate)}
-              originalDate={selectedDate}
-              selectedTime={selectedTime}
-              setSection={setSection}
-              customer={customer}
+            <div className='w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 '>
+              <ConfirmCard
+                selectedService={selectedService}
+                selectedDate={formatDate(selectedDate)}
+                originalDate={selectedDate}
+                selectedTime={selectedTime}
+                setSection={setSection}
+                customer={customer}
               />
-              </div>
+            </div>
           </div>
         )}
       </div>
