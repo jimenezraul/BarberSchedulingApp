@@ -6,7 +6,7 @@ function Home() {
       <div className='bg-img flex'>
         <div className='container mx-auto md:px-14 mt-5 flex'>
           <div className='flex-1 flex flex-col justify-center'>
-            <div className='w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 mx-auto mt-24'>
+            <div className='w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 mx-auto'>
               <h1 className='mb-2 font-bold text-3xl text-gray-100 my-font2 outline-4'>
                 Welcome
               </h1>
@@ -20,18 +20,6 @@ function Home() {
               >
                 Book Now
               </Link>
-              <div className='mt-6 w-full text-center'>
-                <div className='mt-5 pt-5 flex flex-wrap justify-center divide-y-2 border-t border-gray-500'>
-                  <div className='w-full text-center flex justify-center items-center'>
-                    <Link to='https://www.facebook.com/raulthebarber81'>
-                      <i className='mr-3 text-3xl text-gray-100 bi bi-facebook'></i>
-                    </Link>
-                    <Link to='https://www.instagram.com/raul.thebarber/'>
-                      <i className='ml-3 text-3xl text-gray-100 bi bi-instagram'></i>
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
