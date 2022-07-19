@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { create_appointment, update_appointment } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Loader from "../Loader";
+import { CircularProgress } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import {
@@ -186,8 +186,8 @@ const ConfirmCard = ({
           <div className='shadow relative font-bold text-1xl text-center p-5 bg-gray-800 rounded-t-lg'>
             Loading ...
           </div>
-          <div className='flex justify-center'>
-            <Loader />
+          <div className='p-10 flex justify-center'>
+          <CircularProgress color="loader" />
           </div>
         </div>
       )}

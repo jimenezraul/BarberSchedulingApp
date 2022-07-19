@@ -1,4 +1,4 @@
-import Loader from "../Loader";
+import { CircularProgress } from "@mui/material";
 import AppCard from "./AppCard";
 import { useSelector } from "react-redux";
 
@@ -9,8 +9,8 @@ function AppointmentList() {
   return (
     <div>
       {loading ? (
-        <div className='flex justify-center border-t border-gray-600 bg-gray-700'>
-          <Loader />
+        <div className='p-10 flex justify-center border-t border-gray-600 bg-gray-700'>
+        <CircularProgress color="loader" />
         </div>
       ) : appointments.length > 0 ? (
         appointments.map((appointment) => (

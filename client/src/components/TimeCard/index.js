@@ -1,7 +1,7 @@
 import { formattedDate } from "../../utils/helpers";
 import { get_availability } from "../../api";
 import { useState, useEffect } from "react";
-import Loader from "../Loader";
+import { CircularProgress } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const TimeCard = ({
@@ -47,8 +47,8 @@ const TimeCard = ({
         <div className='flex flex-wrap bg-gray-700'>
           <div className='flex flex-col w-full text-center'>
             {loading ? (
-              <div className='py-2 px-3 align-middle flex justify-center min-w-full'>
-                <Loader />
+              <div className='p-10 align-middle flex justify-center min-w-full'>
+              <CircularProgress color="loader" />
               </div>
             ) : availability.length > 0 ? (
               availability?.map((time, index) => {

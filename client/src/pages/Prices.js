@@ -1,4 +1,4 @@
-import Loader from "../components/Loader";
+import { CircularProgress } from "@mui/material";
 import PriceTable from "../components/PriceTable";
 import { useEffect, useState } from "react";
 import { get_all_services } from "../api";
@@ -22,30 +22,22 @@ const Prices = () => {
           </div>
         </div>
         {!allServices.length ? (
-          <div className='py-2 px-3 align-middle flex justify-center min-w-full mb-32'>
-            <div className='shadow-lg overflow-hidden w-full md:w-9/12 lg:w-6/12 rounded-lg border border-gray-600'>
-              <table className='min-w-full'>
-                <thead className='bg-gray-800'>
-                  <tr>
-                    <th
-                      scope='col'
-                      className='flex justify-center font-bold text-center px-10 py-3 text-gray-500 dark:text-gray-200 text-1xl'
-                    >
-                      <Loader />
-                    </th>
-                  </tr>
-                </thead>
-              </table>
+          <div className='flex flex-wrap justify-center'>
+            <div className='w-full md:w-4/12 p-1'>
+              <div className='p-10 flex justify-center rounded-lg border border-gray-600 mx-auto bg-gray-800'>
+                <CircularProgress color='loader' />
+              </div>
             </div>
           </div>
         ) : (
           <div>
             {allServices.map((service) => (
-              <div key={service.key} className='py-2 px-3 align-middle flex justify-center min-w-full'>
+              <div
+                key={service.key}
+                className='py-2 px-3 align-middle flex justify-center min-w-full'
+              >
                 <div className='shadow-lg overflow-hidden w-full md:w-9/12 lg:w-6/12 rounded-lg border border-gray-600'>
-                  <table
-                    className='min-w-full divide-y divide-gray-600'
-                  >
+                  <table className='min-w-full divide-y divide-gray-600'>
                     <thead className='bg-gray-800'>
                       <tr>
                         <th

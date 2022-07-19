@@ -3,13 +3,14 @@ import { getOrCreate_customer, get_all_services } from "../api";
 import AppointmentCard from "../components/AppointmentCard";
 import CalendarScreen from "../components/Calendar";
 import DateCard from "../components/DateCard";
-import Loader from "../components/Loader";
 import SideCard from "../components/ServiceCard";
 import TimeCard from "../components/TimeCard";
 import { formatDate } from "../utils/helpers";
 import { useAuth0 } from "@auth0/auth0-react";
 import Login from "../components/Login";
 import ConfirmCard from "../components/ConfirmCard";
+import { CircularProgress } from "@mui/material";
+
 
 const BookNow = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -49,8 +50,8 @@ const BookNow = () => {
           <div className='flex flex-wrap justify-center p-3'>
             {!allServices.length ? (
               <div className='w-full md:w-4/12 p-1'>
-                <div className='flex justify-center rounded-lg border border-gray-600 mx-auto bg-gray-800'>
-                  <Loader />
+                <div className='p-10 flex justify-center rounded-lg border border-gray-600 mx-auto bg-gray-800'>
+                <CircularProgress color="loader" />
                 </div>
               </div>
             ) : (
